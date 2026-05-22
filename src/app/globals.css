@@ -10,12 +10,30 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-navy: #0b3d6b;
-  --color-navy-dark: #082e52;
-  --color-teal: #0891b2;
-  --color-teal-light: #e0f7fa;
-  --color-slate: #64748b;
-  --color-surface: #f8fafc;
+
+  /* ── Primary blues (harmonised with logo blue #4a8fcc) ── */
+  --color-navy:       #1e3a6f;   /* header / hero / section bg */
+  --color-navy-dark:  #142850;   /* footer */
+
+  /* ── Brand colours pulled directly from the logo ── */
+  --color-brand-blue: #4a8fcc;   /* logo blue — links, icons, decorative */
+  --color-teal:       #4a8fcc;   /* alias kept so existing text-teal/bg-teal-light classes work */
+  --color-teal-light: #e8f0fa;   /* icon/tag backgrounds — blue tint (no cyan cast) */
+
+  /* ── CTA — deepened logo green (passes WCAG AA with white text) ── */
+  --color-cta:        #2e7d3a;
+  --color-cta-hover:  #256830;
+
+  /* ── Specialty accent — logo purple ── */
+  --color-purple:       #7040a8;
+  --color-purple-light: #f2ebf8;
+
+  /* ── Soft tints ── */
+  --color-green-light: #e6f4e8;
+  --color-surface:     #f7f9fc;
+
+  /* ── Typography ── */
+  --color-muted: #5b6b80;
 }
 
 body {

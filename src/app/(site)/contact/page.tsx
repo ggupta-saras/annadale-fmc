@@ -14,7 +14,7 @@ export default function ContactPage() {
       <section className="bg-navy text-white py-14 px-4">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-3xl font-bold mb-3">Contact Us</h1>
-          <p className="text-cyan-200">Our team is ready to help. Call, email, or book online — whatever works for you.</p>
+          <p className="text-blue-200">Our team is ready to help. Call, email, or book online — whatever works for you.</p>
         </div>
       </section>
 
@@ -86,21 +86,21 @@ export default function ContactPage() {
           <div className="space-y-6">
             <div className="bg-navy text-white rounded-xl p-6">
               <h2 className="font-bold text-lg mb-2 flex items-center gap-2">
-                <CalendarDays size={18} className="text-cyan-300" />
+                <CalendarDays size={18} className="text-blue-300" />
                 Book an Appointment
               </h2>
-              <p className="text-cyan-200 text-sm mb-4">
+              <p className="text-blue-200 text-sm mb-4">
                 Our online booking is open around the clock. Choose a time that suits you.
               </p>
               <a
                 href={siteConfig.booking.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-teal hover:bg-cyan-600 text-white font-semibold px-5 py-2.5 rounded-full transition-colors text-sm"
+                className="inline-flex items-center gap-2 bg-cta hover:bg-cta-hover text-white font-semibold px-5 py-2.5 rounded-full transition-colors text-sm"
               >
                 Book via {siteConfig.booking.provider}
               </a>
-              <p className="text-xs text-cyan-300 mt-3">
+              <p className="text-xs text-blue-300 mt-3">
                 Prefer to call? Ring us on {siteConfig.phone} during business hours.
               </p>
             </div>

@@ -21,11 +21,11 @@ export default function BeveridgeClinicPage() {
     <>
       <section className="bg-navy text-white py-14 px-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-cyan-300 text-xs font-semibold uppercase tracking-widest mb-2">
+          <p className="text-blue-300 text-xs font-semibold uppercase tracking-widest mb-2">
             Outreach Service
           </p>
           <h1 className="text-3xl font-bold mb-3">Beveridge Pop-Up GP Clinic</h1>
-          <p className="text-cyan-200">
+          <p className="text-blue-200">
             Bringing quality, bulk-billed general practice care closer to Beveridge residents.
           </p>
         </div>
@@ -61,10 +61,10 @@ export default function BeveridgeClinicPage() {
           <div className="space-y-5">
             <div className="bg-navy text-white rounded-xl p-6">
               <h2 className="font-bold text-lg mb-3 flex items-center gap-2">
-                <CalendarDays size={18} className="text-cyan-300" />
+                <CalendarDays size={18} className="text-blue-300" />
                 Book an Appointment
               </h2>
-              <p className="text-cyan-200 text-sm mb-4">
+              <p className="text-blue-200 text-sm mb-4">
                 Appointments are required — walk-ins are not available at this location.
                 Book online or call our main clinic.
               </p>
@@ -72,11 +72,11 @@ export default function BeveridgeClinicPage() {
                 href={siteConfig.booking.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-teal hover:bg-cyan-600 text-white font-semibold px-5 py-2.5 rounded-full transition-colors text-sm"
+                className="inline-flex items-center gap-2 bg-cta hover:bg-cta-hover text-white font-semibold px-5 py-2.5 rounded-full transition-colors text-sm"
               >
                 Book via {siteConfig.booking.provider}
               </a>
-              <p className="text-xs text-cyan-300 mt-3">
+              <p className="text-xs text-blue-300 mt-3">
                 Or call <a href={siteConfig.phoneHref} className="underline">{siteConfig.phone}</a>
               </p>
             </div>

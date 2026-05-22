@@ -17,17 +17,17 @@ export function Footer() {
               className="h-9 w-auto"
             />
           </div>
-          <p className="text-cyan-200 text-sm leading-relaxed">
+          <p className="text-blue-200 text-sm leading-relaxed">
             {siteConfig.tagline}
           </p>
           <p className="text-green-300 text-xs mt-2 font-medium">✓ New patients welcome</p>
         </div>
 
         <div>
-          <h4 className="font-semibold text-sm uppercase tracking-wider text-cyan-300 mb-3">Contact</h4>
-          <ul className="space-y-2 text-sm text-cyan-100">
+          <h4 className="font-semibold text-sm uppercase tracking-wider text-blue-300 mb-3">Contact</h4>
+          <ul className="space-y-2 text-sm text-blue-100">
             <li className="flex items-start gap-2">
-              <MapPin size={14} className="mt-0.5 shrink-0 text-cyan-300" />
+              <MapPin size={14} className="mt-0.5 shrink-0 text-blue-300" />
               <a
                 href={siteConfig.address.mapsUrl}
                 target="_blank"
@@ -38,13 +38,13 @@ export function Footer() {
               </a>
             </li>
             <li className="flex items-center gap-2">
-              <Phone size={14} className="text-cyan-300" />
+              <Phone size={14} className="text-blue-300" />
               <a href={siteConfig.phoneHref} className="hover:text-white transition-colors">
                 {siteConfig.phone}
               </a>
             </li>
             <li className="flex items-center gap-2">
-              <Mail size={14} className="text-cyan-300" />
+              <Mail size={14} className="text-blue-300" />
               <a href={`mailto:${siteConfig.email}`} className="hover:text-white transition-colors">
                 {siteConfig.email}
               </a>
@@ -53,11 +53,11 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="font-semibold text-sm uppercase tracking-wider text-cyan-300 mb-3">Hours</h4>
-          <ul className="space-y-1 text-sm text-cyan-100">
+          <h4 className="font-semibold text-sm uppercase tracking-wider text-blue-300 mb-3">Hours</h4>
+          <ul className="space-y-1 text-sm text-blue-100">
             {siteConfig.hours.slice(0, 2).map(({ day, time }) => (
               <li key={day} className="flex items-center gap-2">
-                <Clock size={12} className="text-cyan-300 shrink-0" />
+                <Clock size={12} className="text-blue-300 shrink-0" />
                 <span>{day}: {time}</span>
               </li>
             ))}
@@ -69,7 +69,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/10 px-4 py-4">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-cyan-300">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-blue-300">
           <span>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</span>
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>

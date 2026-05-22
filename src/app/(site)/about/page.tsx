@@ -12,7 +12,7 @@ export default function AboutPage() {
       <section className="bg-navy text-white py-14 px-4">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-3xl font-bold mb-3">Our Practice</h1>
-          <p className="text-cyan-200">
+          <p className="text-blue-200">
             Where expert medicine meets genuine human care.
           </p>
         </div>

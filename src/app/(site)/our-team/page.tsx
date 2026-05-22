@@ -57,7 +57,7 @@ export default function OurTeamPage() {
       <section className="bg-navy text-white py-14 px-4">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-3xl font-bold mb-3">Our Team</h1>
-          <p className="text-cyan-200">
+          <p className="text-blue-200">
             Experienced, compassionate professionals dedicated to your health and wellbeing.
           </p>
         </div>

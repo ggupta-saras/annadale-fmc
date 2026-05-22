@@ -8,14 +8,14 @@ export default function HomePage() {
       {/* Hero */}
       <section className="bg-navy text-white py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-cyan-300 text-sm font-semibold uppercase tracking-widest mb-3">
+          <p className="text-blue-300 text-sm font-semibold uppercase tracking-widest mb-3">
             Fully Bulk Billed · Mickleham VIC
           </p>
           <h1 className="text-4xl md:text-5xl font-bold mb-5 leading-tight">
             Your Health. Your Family.<br />
-            <span className="text-cyan-300">Your Community.</span>
+            <span className="text-blue-300">Your Community.</span>
           </h1>
-          <p className="text-lg text-cyan-100 mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto leading-relaxed">
             A community-focused, fully bulk billed general practice delivering high-quality,
             compassionate healthcare for individuals and families of all ages in Mickleham
             and surrounding areas.
@@ -25,7 +25,7 @@ export default function HomePage() {
               href={siteConfig.booking.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-teal hover:bg-cyan-600 text-white font-semibold px-6 py-3 rounded-full transition-colors"
+              className="inline-flex items-center gap-2 bg-cta hover:bg-cta-hover text-white font-semibold px-6 py-3 rounded-full transition-colors"
             >
               <CalendarDays size={18} />
               Book an Appointment
@@ -42,7 +42,7 @@ export default function HomePage() {
       </section>
 
       {/* Quick info bar */}
-      <section className="bg-teal text-white py-4 px-4">
+      <section className="bg-navy-dark text-white py-4 px-4">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
           <div className="flex items-center gap-2 justify-center">
             <Wallet size={15} />
@@ -103,9 +103,9 @@ export default function HomePage() {
       <section className="py-10 px-4 bg-navy text-white">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-6">
           <div className="flex-1">
-            <p className="text-cyan-300 text-xs font-semibold uppercase tracking-widest mb-2">Outreach Service</p>
+            <p className="text-blue-300 text-xs font-semibold uppercase tracking-widest mb-2">Outreach Service</p>
             <h3 className="font-bold text-xl mb-2">Beveridge Pop-Up GP Clinic</h3>
-            <p className="text-cyan-100 text-sm leading-relaxed">
+            <p className="text-blue-100 text-sm leading-relaxed">
               Annadale FMC runs a weekly outreach GP clinic in Beveridge — bringing local
               healthcare closer to you. General consultations, prescriptions, referrals,
               chronic disease reviews, and mental health care plans. Medicare rebates available.
@@ -113,7 +113,7 @@ export default function HomePage() {
           </div>
           <Link
             href="/beveridge-clinic"
-            className="shrink-0 inline-flex items-center gap-2 bg-teal hover:bg-cyan-600 text-white font-semibold px-5 py-2.5 rounded-full transition-colors text-sm"
+            className="shrink-0 inline-flex items-center gap-2 bg-cta hover:bg-cta-hover text-white font-semibold px-5 py-2.5 rounded-full transition-colors text-sm"
           >
             Learn more →
           </Link>
@@ -143,7 +143,7 @@ export default function HomePage() {
             href={siteConfig.booking.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-navy hover:bg-navy-dark text-white font-semibold px-6 py-3 rounded-full transition-colors"
+            className="inline-flex items-center gap-2 bg-cta hover:bg-cta-hover text-white font-semibold px-6 py-3 rounded-full transition-colors"
           >
             <CalendarDays size={18} />
             Book via {siteConfig.booking.provider}

@@ -43,7 +43,7 @@ export function Navbar() {
               className={`px-3 py-2 rounded text-sm font-medium transition-colors ${
                 pathname === link.href
                   ? "bg-teal text-white"
-                  : "text-cyan-100 hover:bg-white/10"
+                  : "text-blue-100 hover:bg-white/10"
               }`}
             >
               {link.label}
@@ -53,7 +53,7 @@ export function Navbar() {
             href={siteConfig.booking.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-4 flex items-center gap-1.5 bg-teal hover:bg-cyan-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
+            className="ml-4 flex items-center gap-1.5 bg-cta hover:bg-cta-hover text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
           >
             <CalendarDays size={14} />
             Book Online
@@ -79,7 +79,7 @@ export function Navbar() {
               href={link.href}
               onClick={() => setOpen(false)}
               className={`block py-2.5 text-sm font-medium border-b border-white/10 ${
-                pathname === link.href ? "text-cyan-300" : "text-cyan-100"
+                pathname === link.href ? "text-blue-300" : "text-blue-100"
               }`}
             >
               {link.label}

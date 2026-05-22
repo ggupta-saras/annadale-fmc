@@ -32,7 +32,7 @@ export default function ServicesPage() {
       <section className="bg-navy text-white py-14 px-4">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-3xl font-bold mb-3">What We Treat</h1>
-          <p className="text-cyan-200">
+          <p className="text-blue-200">
             From everyday illness to complex chronic conditions — everything under one roof, with doctors who know you.
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function ServicesPage() {
             ))}
           </div>
 
-          <div className="mt-12 bg-teal-light rounded-xl p-6 border border-cyan-100">
+          <div className="mt-12 bg-teal-light rounded-xl p-6 border border-teal-light">
             <h2 className="font-bold text-navy mb-2">Something else on your mind?</h2>
             <p className="text-sm text-slate-500 mb-3">
               Our GPs provide broad general practice care. If you&apos;re unsure whether we can
