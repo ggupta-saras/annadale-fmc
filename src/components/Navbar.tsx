@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
+import { Logo } from "@/components/Logo";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -24,14 +24,7 @@ export function Navbar() {
     <header className="bg-navy text-white shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center">
-          <Image
-            src="/logo-white.svg"
-            alt="Annadale Family Medical Centre"
-            width={240}
-            height={44}
-            className="h-10 w-auto"
-            priority
-          />
+          <Logo variant="light" markSize={40} />
         </Link>
 
         {/* Desktop nav */}

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
+import { Logo } from "@/components/Logo";
 
 export function Footer() {
   return (
@@ -9,13 +9,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <div className="mb-3">
-            <Image
-              src="/logo-white.svg"
-              alt="Annadale Family Medical Centre"
-              width={200}
-              height={36}
-              className="h-9 w-auto"
-            />
+            <Logo variant="light" markSize={36} />
           </div>
           <p className="text-blue-200 text-sm leading-relaxed">
             {siteConfig.tagline}
