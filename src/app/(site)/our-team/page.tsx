@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { UserCircle } from "lucide-react";
+import { UserCircle, CalendarDays } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Our Team",
@@ -13,6 +13,7 @@ const doctors = [
     qualifications: "MBBS, FRACGP",
     bio: "Dr. [Name] is a Fellow of the Royal Australian College of General Practitioners with a special interest in preventive health and chronic disease management. They welcome patients of all ages and backgrounds.",
     interests: ["Preventive Health", "Chronic Disease", "Men's Health"],
+    languages: "English",
     acceptingNew: true,
   },
 ];
@@ -65,6 +66,18 @@ export default function OurTeamPage() {
                       </span>
                     ))}
                   </div>
+                  {doc.languages && (
+                    <p className="text-xs text-slate-400 mt-2">Languages: {doc.languages}</p>
+                  )}
+                  <a
+                    href="https://www.hotdoc.com.au"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-teal hover:underline"
+                  >
+                    <CalendarDays size={12} />
+                    Book with {doc.name} →
+                  </a>
                 </div>
               </div>
             ))}

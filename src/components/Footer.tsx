@@ -10,6 +10,8 @@ export function Footer() {
           <p className="text-cyan-200 text-sm leading-relaxed">
             Expert care. Familiar faces. A healthier Annadale.
           </p>
+          <p className="text-cyan-300 text-xs mt-1">Caring for local families across generations.</p>
+          <p className="text-green-300 text-xs mt-1 font-medium">✓ New patients welcome</p>
         </div>
 
         <div>
@@ -45,8 +47,8 @@ export function Footer() {
               <Clock size={12} className="text-cyan-300" />
               <span>Saturday: 9:00am – 1:00pm</span>
             </li>
-            <li className="text-xs text-cyan-300 mt-2">
-              After hours: 13SICK (13 7425)
+            <li className="text-xs text-amber-300 mt-2 font-medium">
+              After hours: 13 SICK (13 7425)
             </li>
           </ul>
         </div>
@@ -55,9 +57,20 @@ export function Footer() {
       <div className="border-t border-white/10 px-4 py-4">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-cyan-300">
           <span>© {new Date().getFullYear()} Annadale Family Medical Centre. All rights reserved.</span>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/contact#feedback" className="hover:text-white transition-colors">Complaints</Link>
+            <a
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="hover:text-white transition-colors"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, Phone, MapPin, Clock, Heart, Users, Stethoscope, Baby } from "lucide-react";
+import { CalendarDays, Phone, MapPin, Clock, Heart, Users, Stethoscope, Baby, Wallet, Clock4, Video } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -15,6 +15,17 @@ export default function HomePage() {
             Annadale Family Medical Centre delivers expert, unhurried GP care for every
             generation — where your doctor remembers your history, not just your chart.
           </p>
+          <div className="flex flex-wrap justify-center gap-2 mb-6 text-sm">
+            <span className="flex items-center gap-1.5 bg-white/15 text-white px-3 py-1 rounded-full">
+              <Wallet size={14} /> Bulk Billing
+            </span>
+            <span className="flex items-center gap-1.5 bg-white/15 text-white px-3 py-1 rounded-full">
+              <Clock4 size={14} /> Open 6 Days a Week
+            </span>
+            <span className="flex items-center gap-1.5 bg-white/15 text-white px-3 py-1 rounded-full">
+              <Video size={14} /> Telehealth Appointments
+            </span>
+          </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
               href="https://www.hotdoc.com.au"
@@ -38,7 +49,7 @@ export default function HomePage() {
 
       {/* Quick info bar */}
       <section className="bg-teal text-white py-4 px-4">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
           <div className="flex items-center gap-2 justify-center">
             <Clock size={16} />
             <span>Mon–Fri 8am–6pm · Sat 9am–1pm</span>
@@ -50,6 +61,10 @@ export default function HomePage() {
           <div className="flex items-center gap-2 justify-center">
             <MapPin size={16} />
             <span>Annadale, NSW</span>
+          </div>
+          <div className="flex items-center gap-2 justify-center">
+            <Video size={16} />
+            <span>Telehealth available</span>
           </div>
         </div>
       </section>

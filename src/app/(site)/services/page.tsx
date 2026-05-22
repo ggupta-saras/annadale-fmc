@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import {
   Heart, Baby, Brain, Activity, Stethoscope, Syringe,
-  Users, Shield, Pill, Eye, Clipboard, Sun,
+  Users, Shield, Pill, Eye, Clipboard, Sun, Video,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -22,6 +22,7 @@ const services = [
   { icon: Pill, title: "Medication Management", desc: "Medication reviews, repeat prescriptions, and chronic pain management." },
   { icon: Eye, title: "Aged Care", desc: "Comprehensive aged care assessments, care coordination, and home medicine reviews." },
   { icon: Clipboard, title: "Care Plans & Referrals", desc: "Specialist referrals, allied health referrals, and care plan coordination." },
+  { icon: Video, title: "Telehealth Consultations", desc: "Consult your GP from home — ideal for script renewals, results review, mental health follow-ups, and simple referrals. Some consultations require an in-person visit." },
 ];
 
 export default function ServicesPage() {

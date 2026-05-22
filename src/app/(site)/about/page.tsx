@@ -25,7 +25,7 @@ export default function AboutPage() {
             Annadale Family Medical Centre was built on a simple belief: you deserve a doctor
             who knows you. Not just your file — but your life, your family, your goals. We bring
             together the rigour of evidence-based medicine and the warmth of a practice that&apos;s
-            truly part of your community.
+            truly part of your community, caring for local families across generations.
           </p>
 
           <h2 className="text-xl font-bold text-navy mb-4 mt-8">Our Values</h2>
