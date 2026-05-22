@@ -8,12 +8,12 @@ export default function HomePage() {
       <section className="bg-navy text-white py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-            Your Family Doctor,<br />
-            <span className="text-cyan-300">Right in Your Community</span>
+            Medicine That<br />
+            <span className="text-cyan-300">Knows Your Name</span>
           </h1>
           <p className="text-lg text-cyan-100 mb-8 max-w-2xl mx-auto">
-            Annadale Family Medical Centre provides comprehensive, compassionate general
-            practice care for patients of all ages — from newborns to seniors.
+            Annadale Family Medical Centre delivers expert, unhurried GP care for every
+            generation — where your doctor remembers your history, not just your chart.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
@@ -58,14 +58,14 @@ export default function HomePage() {
       <section className="py-16 px-4 bg-surface">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-bold text-center text-navy mb-10">
-            How We Can Help
+            Care for Every Stage of Life
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: Heart, title: "Chronic Disease Management", desc: "Personalised care plans for diabetes, heart disease, and more." },
-              { icon: Baby, title: "Child & Family Health", desc: "Vaccinations, growth checks, and care for every age." },
-              { icon: Stethoscope, title: "Preventive Health", desc: "Health assessments, cancer screening, and wellness checks." },
-              { icon: Users, title: "Mental Health", desc: "GP Mental Health Plans, referrals, and ongoing support." },
+              { icon: Heart, title: "Chronic Disease Management", desc: "Live well with a long-term condition. We build personalised plans around you — not the diagnosis." },
+              { icon: Baby, title: "Child & Family Health", desc: "From first vaccinations to teenage check-ups, we grow with your whole family." },
+              { icon: Stethoscope, title: "Preventive Health", desc: "Catch problems before they start. Regular screening and health checks, tailored to your age and risk." },
+              { icon: Users, title: "Mental Health", desc: "We take your mental health as seriously as your physical health — with compassionate plans and the right referrals." },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
                 <div className="w-10 h-10 bg-teal-light rounded-full flex items-center justify-center mb-4">
@@ -90,7 +90,7 @@ export default function HomePage() {
       {/* After hours callout */}
       <section className="py-10 px-4 bg-amber-50 border-y border-amber-100">
         <div className="max-w-3xl mx-auto text-center">
-          <h3 className="font-bold text-amber-900 mb-2">After Hours & Urgent Care</h3>
+          <h3 className="font-bold text-amber-900 mb-2">Need Care Right Now?</h3>
           <p className="text-amber-800 text-sm mb-3">
             If you need medical care outside our opening hours, please call{" "}
             <strong>13SICK (13 7425)</strong> for a home visit service, or in an emergency
@@ -105,9 +105,9 @@ export default function HomePage() {
 
       {/* CTA */}
       <section className="py-16 px-4 bg-navy text-white text-center">
-        <h2 className="text-2xl font-bold mb-3">Ready to become a patient?</h2>
+        <h2 className="text-2xl font-bold mb-3">Join Our Practice</h2>
         <p className="text-cyan-200 mb-6 max-w-xl mx-auto text-sm">
-          We welcome new patients. Book online or call us to make your first appointment.
+          We&apos;re welcoming new patients and their families. Book your first appointment online — it only takes a minute.
         </p>
         <a
           href="https://www.hotdoc.com.au"

@@ -11,9 +11,9 @@ export default function AboutPage() {
     <>
       <section className="bg-navy text-white py-14 px-4">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-3xl font-bold mb-3">About Us</h1>
+          <h1 className="text-3xl font-bold mb-3">Our Practice</h1>
           <p className="text-cyan-200">
-            A trusted general practice serving the Annadale community.
+            Where expert medicine meets genuine human care.
           </p>
         </div>
       </section>
@@ -22,24 +22,19 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto prose prose-slate">
           <h2 className="text-xl font-bold text-navy mb-4">Our Practice</h2>
           <p className="text-slate-500 leading-relaxed mb-4">
-            Annadale Family Medical Centre is a full-service general practice dedicated to
-            providing high-quality, patient-centred care to individuals and families in
-            our community. We believe in building long-term relationships with our
-            patients — getting to know you, your history, and your goals for health.
-          </p>
-          <p className="text-slate-500 leading-relaxed mb-4">
-            Our GPs are committed to ongoing education and staying current with the latest
-            evidence-based medicine, so you can trust that you're receiving the best
-            possible care.
+            Annadale Family Medical Centre was built on a simple belief: you deserve a doctor
+            who knows you. Not just your file — but your life, your family, your goals. We bring
+            together the rigour of evidence-based medicine and the warmth of a practice that&apos;s
+            truly part of your community.
           </p>
 
           <h2 className="text-xl font-bold text-navy mb-4 mt-8">Our Values</h2>
           <ul className="space-y-3 text-slate-500">
             {[
-              { title: "Compassion", desc: "We treat every patient with empathy and respect." },
-              { title: "Continuity", desc: "We value long-term relationships and understanding your full health picture." },
-              { title: "Quality", desc: "Evidence-based, up-to-date care you can count on." },
-              { title: "Community", desc: "We are part of this neighbourhood and invested in its wellbeing." },
+              { title: "Compassion", desc: "Every consultation is unhurried. You're heard, not just diagnosed." },
+              { title: "Continuity", desc: "We invest in long-term relationships. The best care comes from a doctor who knows your whole story." },
+              { title: "Quality", desc: "Our GPs pursue ongoing education and practise to the highest standards — so you always get the best available care." },
+              { title: "Community", desc: "We live here too. Your neighbourhood's health is personal to us." },
             ].map(({ title, desc }) => (
               <li key={title} className="flex gap-3">
                 <span className="text-teal font-bold shrink-0">✓</span>
@@ -49,6 +44,9 @@ export default function AboutPage() {
           </ul>
 
           <h2 className="text-xl font-bold text-navy mb-4 mt-8">Billing</h2>
+          <p className="text-slate-500 leading-relaxed">
+            We believe good healthcare should be accessible.
+          </p>
           <p className="text-slate-500 leading-relaxed">
             We offer bulk billing for concession card holders, children under 16, and
             patients with certain health care plans. Standard appointment fees apply for

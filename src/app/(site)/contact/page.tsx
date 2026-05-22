@@ -19,7 +19,7 @@ export default function ContactPage() {
       <section className="bg-navy text-white py-14 px-4">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-3xl font-bold mb-3">Contact Us</h1>
-          <p className="text-cyan-200">We&apos;d love to hear from you. Find us below.</p>
+          <p className="text-cyan-200">Our team is ready to help. Call, email, or book online — whatever works for you.</p>
         </div>
       </section>
 
@@ -95,7 +95,7 @@ export default function ContactPage() {
                 Book an Appointment
               </h2>
               <p className="text-cyan-200 text-sm mb-4">
-                Book online via our patient portal — available 24/7.
+                Our online booking is open around the clock. Choose a time that suits you.
               </p>
               <a
                 href="https://www.hotdoc.com.au"

@@ -8,7 +8,7 @@ export function Footer() {
         <div>
           <h3 className="font-bold text-lg mb-3">Annadale FMC</h3>
           <p className="text-cyan-200 text-sm leading-relaxed">
-            Providing quality, compassionate general practice care to our community.
+            Expert care. Familiar faces. A healthier Annadale.
           </p>
         </div>
 
@@ -56,8 +56,8 @@ export function Footer() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-cyan-300">
           <span>© {new Date().getFullYear()} Annadale Family Medical Centre. All rights reserved.</span>
           <div className="flex gap-4">
-            <Link href="/contact" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/contact" className="hover:text-white transition-colors">Complaints</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/contact#feedback" className="hover:text-white transition-colors">Complaints</Link>
           </div>
         </div>
       </div>

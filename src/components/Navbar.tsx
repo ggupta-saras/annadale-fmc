@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, CalendarDays } from "lucide-react";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -41,11 +41,13 @@ export function Navbar() {
             </Link>
           ))}
           <a
-            href="tel:0000000000"
+            href="https://www.hotdoc.com.au"
+            target="_blank"
+            rel="noopener noreferrer"
             className="ml-4 flex items-center gap-1.5 bg-teal hover:bg-cyan-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
           >
-            <Phone size={14} />
-            Book Now
+            <CalendarDays size={14} />
+            Book Online
           </a>
         </nav>
 
