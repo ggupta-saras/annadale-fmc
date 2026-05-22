@@ -70,7 +70,7 @@ export default function OurTeamPage() {
                     <p className="text-xs text-slate-400 mt-2">Languages: {doc.languages}</p>
                   )}
                   <a
-                    href="https://www.hotdoc.com.au"
+                    href="https://healthengine.com.au/medical-centre/vic/mickleham/annadale-family-medical-centre/s71806"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-teal hover:underline"

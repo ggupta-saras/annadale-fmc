@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CalendarDays, Phone, MapPin, Clock, Heart, Users, Stethoscope, Baby, Wallet, Clock4, Video } from "lucide-react";
+import { siteConfig } from "@/lib/siteConfig";
 
 export default function HomePage() {
   return (
@@ -28,7 +29,7 @@ export default function HomePage() {
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
-              href="https://www.hotdoc.com.au"
+              href={siteConfig.booking.url}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-teal hover:bg-cyan-600 text-white font-semibold px-6 py-3 rounded-full transition-colors"
@@ -37,7 +38,7 @@ export default function HomePage() {
               Book an Appointment
             </a>
             <a
-              href="tel:0200000000"
+              href={siteConfig.phoneHref}
               className="inline-flex items-center gap-2 border border-white/40 hover:bg-white/10 text-white font-semibold px-6 py-3 rounded-full transition-colors"
             >
               <Phone size={18} />
@@ -56,11 +57,11 @@ export default function HomePage() {
           </div>
           <div className="flex items-center gap-2 justify-center">
             <Phone size={16} />
-            <a href="tel:0200000000" className="hover:underline">(02) 0000 0000</a>
+            <a href={siteConfig.phoneHref} className="hover:underline">{siteConfig.phone}</a>
           </div>
           <div className="flex items-center gap-2 justify-center">
             <MapPin size={16} />
-            <span>Annadale, NSW</span>
+            <span>{siteConfig.address.suburb}, {siteConfig.address.state}</span>
           </div>
           <div className="flex items-center gap-2 justify-center">
             <Video size={16} />
@@ -125,7 +126,7 @@ export default function HomePage() {
           We&apos;re welcoming new patients and their families. Book your first appointment online — it only takes a minute.
         </p>
         <a
-          href="https://www.hotdoc.com.au"
+          href={siteConfig.booking.url}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-teal hover:bg-cyan-600 text-white font-semibold px-6 py-3 rounded-full transition-colors"

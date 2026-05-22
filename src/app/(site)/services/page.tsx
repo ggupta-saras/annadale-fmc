@@ -3,6 +3,7 @@ import {
   Heart, Baby, Brain, Activity, Stethoscope, Syringe,
   Users, Shield, Pill, Eye, Clipboard, Sun, Video,
 } from "lucide-react";
+import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -60,10 +61,10 @@ export default function ServicesPage() {
               help, call us and our friendly reception team will assist you.
             </p>
             <a
-              href="tel:0200000000"
+              href={siteConfig.phoneHref}
               className="inline-flex items-center text-sm font-semibold text-teal hover:underline"
             >
-              Call (02) 0000 0000 →
+              Call {siteConfig.phone} →
             </a>
           </div>
         </div>

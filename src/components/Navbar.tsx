@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X, CalendarDays, Phone } from "lucide-react";
+import { siteConfig } from "@/lib/siteConfig";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -41,7 +42,7 @@ export function Navbar() {
             </Link>
           ))}
           <a
-            href="https://www.hotdoc.com.au"
+            href={siteConfig.booking.url}
             target="_blank"
             rel="noopener noreferrer"
             className="ml-4 flex items-center gap-1.5 bg-teal hover:bg-cyan-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
@@ -77,7 +78,7 @@ export function Navbar() {
             </Link>
           ))}
           <a
-            href="tel:0000000000"
+            href={siteConfig.phoneHref}
             className="mt-3 flex items-center gap-2 text-sm font-semibold text-teal"
           >
             <Phone size={14} />
