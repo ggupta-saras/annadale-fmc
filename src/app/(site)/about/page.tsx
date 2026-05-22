@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -19,6 +20,15 @@ export default function AboutPage() {
       </section>
 
       <section className="py-14 px-4">
+        <div className="max-w-3xl mx-auto">
+          <Image
+            src="/team-reception.jpg"
+            alt="The Annadale FMC team at reception"
+            width={900}
+            height={600}
+            className="rounded-2xl shadow-md w-full mb-10 object-cover"
+          />
+        </div>
         <div className="max-w-3xl mx-auto prose prose-slate">
           <h2 className="text-xl font-bold text-navy mb-4">Our Practice</h2>
           <p className="text-slate-500 leading-relaxed mb-4">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CalendarDays, Phone, MapPin, Clock, Heart, Users, Stethoscope, Baby, Wallet, Video } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 
@@ -6,37 +7,51 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-navy text-white py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-blue-300 text-sm font-semibold uppercase tracking-widest mb-3">
-            Fully Bulk Billed · Mickleham VIC
-          </p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-5 leading-tight">
-            Your Health. Your Family.<br />
-            <span className="text-blue-300">Your Community.</span>
-          </h1>
-          <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto leading-relaxed">
-            A community-focused, fully bulk billed general practice delivering high-quality,
-            compassionate healthcare for individuals and families of all ages in Mickleham
-            and surrounding areas.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href={siteConfig.booking.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-cta hover:bg-cta-hover text-white font-semibold px-6 py-3 rounded-full transition-colors"
-            >
-              <CalendarDays size={18} />
-              Book an Appointment
-            </a>
-            <a
-              href={siteConfig.phoneHref}
-              className="inline-flex items-center gap-2 border border-white/40 hover:bg-white/10 text-white font-semibold px-6 py-3 rounded-full transition-colors"
-            >
-              <Phone size={18} />
-              {siteConfig.phone}
-            </a>
+      <section className="bg-navy text-white py-14 px-4">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          {/* Text */}
+          <div>
+            <p className="text-blue-300 text-sm font-semibold uppercase tracking-widest mb-3">
+              Fully Bulk Billed · Mickleham VIC
+            </p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-5 leading-tight">
+              Your Health. Your Family.<br />
+              <span className="text-blue-300">Your Community.</span>
+            </h1>
+            <p className="text-lg text-blue-100 mb-8 leading-relaxed">
+              A community-focused, fully bulk billed general practice delivering high-quality,
+              compassionate healthcare for individuals and families of all ages in Mickleham
+              and surrounding areas.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <a
+                href={siteConfig.booking.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-cta hover:bg-cta-hover text-white font-semibold px-6 py-3 rounded-full transition-colors"
+              >
+                <CalendarDays size={18} />
+                Book an Appointment
+              </a>
+              <a
+                href={siteConfig.phoneHref}
+                className="inline-flex items-center gap-2 border border-white/40 hover:bg-white/10 text-white font-semibold px-6 py-3 rounded-full transition-colors"
+              >
+                <Phone size={18} />
+                {siteConfig.phone}
+              </a>
+            </div>
+          </div>
+          {/* Photo */}
+          <div className="hidden lg:block">
+            <Image
+              src="/team-reception.jpg"
+              alt="Annadale FMC team at the reception"
+              width={700}
+              height={467}
+              className="rounded-2xl shadow-2xl w-full object-cover"
+              priority
+            />
           </div>
         </div>
       </section>
