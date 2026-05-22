@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, CalendarDays } from "lucide-react";
+import { Menu, X, CalendarDays, Phone } from "lucide-react";
 
 const navLinks = [
   { label: "Home", href: "/" },
