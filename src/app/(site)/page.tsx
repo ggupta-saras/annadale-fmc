@@ -99,6 +99,34 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Community values — purple wash section */}
+      <section className="py-16 px-4 bg-purple-wash">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="w-14 h-1 bg-purple rounded-full mx-auto mb-6" />
+          <h2 className="text-2xl font-bold text-purple-deep mb-4">
+            A practice built around your family
+          </h2>
+          <p className="text-slate-600 text-sm leading-relaxed max-w-2xl mx-auto mb-8">
+            We believe the best care comes from a doctor who knows you — not just your file, but
+            your life, your family, and your goals. Annadale FMC was built on continuity,
+            compassion, and a genuine commitment to the Mickleham community.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            {[
+              { label: "Compassion", sub: "Unhurried, patient-centred care" },
+              { label: "Continuity", sub: "Long-term relationships with your GP" },
+              { label: "Quality", sub: "Evidence-based, up-to-date medicine" },
+              { label: "Community", sub: "We live here too" },
+            ].map(({ label, sub }) => (
+              <div key={label} className="bg-white/70 rounded-xl p-4 border border-purple-light">
+                <p className="font-semibold text-purple-deep mb-1">{label}</p>
+                <p className="text-xs text-slate-500">{sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Beveridge Pop-Up Clinic callout */}
       <section className="py-10 px-4 bg-navy text-white">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-6">

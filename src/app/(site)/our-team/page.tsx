@@ -92,9 +92,16 @@ export default function OurTeamPage() {
                     ))}
                   </div>
                   {doc.languages.length > 1 && (
-                    <p className="text-xs text-slate-400 mt-1">
-                      🗣 Speaks: {doc.languages.join(", ")}
-                    </p>
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {doc.languages.slice(1).map((lang) => (
+                        <span
+                          key={lang}
+                          className="text-xs bg-purple-tint text-purple-deep border border-purple-light px-2 py-0.5 rounded-full font-medium"
+                        >
+                          🗣 {lang}
+                        </span>
+                      ))}
+                    </div>
                   )}
                 </div>
               </div>

@@ -24,9 +24,13 @@
   --color-cta:        #2e7d3a;
   --color-cta-hover:  #256830;
 
-  /* ── Specialty accent — logo purple ── */
-  --color-purple:       #7040a8;
-  --color-purple-light: #f2ebf8;
+  /* ── Specialty accent — logo purple system ── */
+  --color-purple:       #6b3fa0;   /* canonical accent — slightly cleaner than raw logo */
+  --color-purple-deep:  #4e2d78;   /* text on tint, hover states */
+  --color-purple-soft:  #8a63bd;   /* icons on dark backgrounds */
+  --color-purple-tint:  #efe8f7;   /* card/badge fills */
+  --color-purple-wash:  #f8f4fc;   /* very subtle section background */
+  --color-purple-light: #f2ebf8;   /* kept for backwards compat */
 
   /* ── Soft tints ── */
   --color-green-light: #e6f4e8;

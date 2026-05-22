@@ -13,11 +13,11 @@ export const metadata: Metadata = {
 const services = [
   { icon: Stethoscope, title: "General Consultations", desc: "Acute illness, injuries, referrals, and all day-to-day medical needs." },
   { icon: Heart, title: "Chronic Disease Management", desc: "Personalised care plans for diabetes, hypertension, asthma, COPD, and more. Includes GP Management Plans and Team Care Arrangements." },
-  { icon: Brain, title: "Mental Health", desc: "GP Mental Health Treatment Plans, brief counselling, and referrals to psychologists and psychiatrists." },
+  { icon: Brain, title: "Mental Health", desc: "GP Mental Health Treatment Plans, brief counselling, and referrals to psychologists and psychiatrists.", purple: true },
   { icon: Baby, title: "Child & Family Health", desc: "Vaccinations, growth and development checks, school health, and care for the whole family." },
   { icon: Shield, title: "Preventive Health", desc: "Annual health assessments, cancer screening (cervical, bowel, skin), and lifestyle risk reduction." },
   { icon: Syringe, title: "Immunisations", desc: "All National Immunisation Program (NIP) vaccines for children and adults, including flu and travel vaccines." },
-  { icon: Activity, title: "Women's Health", desc: "Pap smears, contraception, menopause management, breast checks, and antenatal shared care." },
+  { icon: Activity, title: "Women's Health", desc: "Pap smears, contraception, menopause management, breast checks, and antenatal shared care.", purple: true },
   { icon: Users, title: "Men's Health", desc: "Prostate and testicular health, cardiovascular risk, mental health, and occupational health." },
   { icon: Sun, title: "Skin Checks", desc: "Skin cancer checks, mole mapping, and minor surgical procedures." },
   { icon: Pill, title: "Medication Management", desc: "Medication reviews, repeat prescriptions, and chronic pain management." },
@@ -41,13 +41,24 @@ export default function ServicesPage() {
       <section className="py-14 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {services.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white border border-slate-100 rounded-xl p-5 shadow-sm">
+            {services.map(({ icon: Icon, title, desc, purple }) => (
+              <div
+                key={title}
+                className={`rounded-xl p-5 shadow-sm border ${
+                  purple
+                    ? "bg-purple-tint border-purple-light"
+                    : "bg-white border-slate-100"
+                }`}
+              >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-9 h-9 bg-teal-light rounded-lg flex items-center justify-center shrink-0">
-                    <Icon size={18} className="text-teal" />
+                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
+                    purple ? "bg-white/60" : "bg-teal-light"
+                  }`}>
+                    <Icon size={18} className={purple ? "text-purple-deep" : "text-teal"} />
                   </div>
-                  <h3 className="font-semibold text-navy text-sm">{title}</h3>
+                  <h3 className={`font-semibold text-sm ${purple ? "text-purple-deep" : "text-navy"}`}>
+                    {title}
+                  </h3>
                 </div>
                 <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
               </div>
