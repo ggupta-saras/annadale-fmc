@@ -11,6 +11,7 @@ const navLinks = [
   { label: "About Us", href: "/about" },
   { label: "Our Team", href: "/our-team" },
   { label: "Services", href: "/services" },
+  { label: "Beveridge Clinic", href: "/beveridge-clinic" },
   { label: "Contact", href: "/contact" },
 ];
 

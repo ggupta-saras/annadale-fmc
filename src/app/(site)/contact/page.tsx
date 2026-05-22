@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Phone, Mail, MapPin, Clock, CalendarDays, AlertTriangle } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
+// Hours now come from siteConfig — updated to reflect Mon–Sun schedule
 
 export const metadata: Metadata = {
   title: "Contact Us",
