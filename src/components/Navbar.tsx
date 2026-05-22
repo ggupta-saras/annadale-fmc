@@ -24,16 +24,14 @@ export function Navbar() {
     <header className="bg-navy text-white shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center">
-          <div className="bg-white rounded-lg px-2 py-1">
-            <Image
-              src="/logo.png"
-              alt="Annadale Family Medical Centre"
-              width={180}
-              height={40}
-              className="h-9 w-auto"
-              priority
-            />
-          </div>
+          <Image
+            src="/logo-white.svg"
+            alt="Annadale Family Medical Centre"
+            width={240}
+            height={44}
+            className="h-10 w-auto"
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}

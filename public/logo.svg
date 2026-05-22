@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 100" role="img" aria-label="Annadale Family Medical Centre">
+
+  <!-- ── FAMILY FIGURE MARK ── -->
+
+  <!-- Green adult (left) -->
+  <circle cx="29" cy="17" r="10" fill="#3CB54A"/>
+  <path d="
+    M 20 27
+    C  2 42  2 68 20 81
+    C 28 88 42 89 52 86
+    C 44 80 37 70 35 59
+    C 32 48 35 36 35 30
+    Z
+  " fill="#3CB54A"/>
+
+  <!-- Purple adult (right) -->
+  <circle cx="73" cy="14" r="10" fill="#7040A8"/>
+  <path d="
+    M 82 24
+    C 100 42 100 68 82 81
+    C 74 88 60 89 50 86
+    C 58 80 65 70 67 59
+    C 70 48 67 36 67 30
+    Z
+  " fill="#7040A8"/>
+
+  <!-- Blue child (centre) -->
+  <circle cx="51" cy="42" r="9" fill="#4A8FCC"/>
+  <path d="
+    M 43 53
+    C 42 68 44 80 47 86
+    Q 51 91 55 86
+    C 58 80 60 68 59 53
+    Z
+  " fill="#4A8FCC"/>
+
+  <!-- ── WORDMARK ── -->
+  <text
+    x="114" y="56"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+    font-size="26"
+    font-weight="600"
+    letter-spacing="-0.2"
+    fill="#4A8FCC"
+  >Annadale Family Medical Centre</text>
+
+</svg>
