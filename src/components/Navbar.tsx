@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, CalendarDays, Phone } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 
 const navLinks = [
@@ -53,9 +53,8 @@ export function Navbar() {
             href={siteConfig.booking.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-4 flex items-center gap-1.5 bg-cta hover:bg-cta-hover text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
+            className="ml-4 bg-cta hover:bg-cta-hover text-white text-sm font-semibold px-5 py-2 rounded-full transition-colors"
           >
-            <CalendarDays size={14} />
             Book Online
           </a>
         </nav>
