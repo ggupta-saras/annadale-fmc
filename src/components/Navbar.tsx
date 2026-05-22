@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X, CalendarDays, Phone } from "lucide-react";
@@ -22,9 +23,17 @@ export function Navbar() {
   return (
     <header className="bg-navy text-white shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex flex-col leading-tight">
-          <span className="text-lg font-bold tracking-tight">Annadale FMC</span>
-          <span className="text-xs text-cyan-200 font-medium">Family Medical Centre</span>
+        <Link href="/" className="flex items-center">
+          <div className="bg-white rounded-lg px-2 py-1">
+            <Image
+              src="/logo.png"
+              alt="Annadale Family Medical Centre"
+              width={180}
+              height={40}
+              className="h-9 w-auto"
+              priority
+            />
+          </div>
         </Link>
 
         {/* Desktop nav */}

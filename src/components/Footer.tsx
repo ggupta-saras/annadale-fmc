@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 
@@ -7,7 +8,15 @@ export function Footer() {
     <footer className="bg-navy-dark text-white mt-auto">
       <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
-          <h3 className="font-bold text-lg mb-3">Annadale FMC</h3>
+          <div className="bg-white rounded-lg inline-block px-3 py-2 mb-3">
+            <Image
+              src="/logo.png"
+              alt="Annadale Family Medical Centre"
+              width={160}
+              height={36}
+              className="h-8 w-auto"
+            />
+          </div>
           <p className="text-cyan-200 text-sm leading-relaxed">
             {siteConfig.tagline}
           </p>
