@@ -9,17 +9,18 @@ interface LogoMarkProps {
 }
 
 export function LogoMark({ size = 56, className = "" }: LogoMarkProps) {
-  // SVG viewBox is 104×100 — aspect ratio ≈ 1.04
-  const width = Math.round(size * 1.04);
+  // cropped PNG: 335×282 → aspect ratio ≈ 1.188
+  const width = Math.round(size * 1.188);
   return (
     <Image
-      src="/logo-mark.svg"
+      src="/logo-mark-transparent.png"
       alt=""
       aria-hidden="true"
       width={width}
       height={size}
       className={className}
-      style={{ height: size, width: "auto", display: "block" }}
+      style={{ height: size, width: "auto", display: "block", background: "transparent" }}
+      placeholder="empty"
       priority
     />
   );

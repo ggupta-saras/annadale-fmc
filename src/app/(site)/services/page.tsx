@@ -2,14 +2,23 @@ import type { Metadata } from "next";
 import { Phone, Calendar } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 import { BulkBilledBadge, Pill } from "@/components/ui";
-import { ServicesGrid } from "@/components/ServicesGrid";
+import { ServicesGrid, type SanityService } from "@/components/ServicesGrid";
+import { client } from "@/sanity/lib/client";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Services",
   description: "From everyday illness to complex chronic conditions — full GP care, fully bulk billed, in Mickleham and Beveridge.",
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services: SanityService[] = await client.fetch(
+    `*[_type == "service"] | order(order asc) {
+      _id, title, icon, category,
+      "description": pt::text(description)
+    }`
+  );
   return (
     <>
       <section className="relative overflow-hidden">
@@ -29,7 +38,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <ServicesGrid />
+      <ServicesGrid services={services} />
 
       <section className="py-12 md:py-16 px-5 md:px-6">
         <div className="max-w-5xl mx-auto bg-ink text-cream-100 rounded-[36px] p-8 md:p-12 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center">

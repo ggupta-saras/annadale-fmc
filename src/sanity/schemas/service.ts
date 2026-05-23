@@ -13,6 +13,23 @@ export const service = defineType({
       of: [{ type: "block" }],
     }),
     defineField({ name: "icon", title: "Icon Name (lucide-react)", type: "string" }),
+    defineField({
+      name: "category",
+      title: "Category",
+      type: "string",
+      options: {
+        list: [
+          { title: "Everyday", value: "Everyday" },
+          { title: "Long-term", value: "Long-term" },
+          { title: "Prevention", value: "Prevention" },
+          { title: "Family", value: "Family" },
+          { title: "Women's", value: "Women's" },
+          { title: "Men's", value: "Men's" },
+          { title: "Wellbeing", value: "Wellbeing" },
+          { title: "Anywhere", value: "Anywhere" },
+        ],
+      },
+    }),
     defineField({ name: "order", title: "Display Order", type: "number", initialValue: 99 }),
   ],
   preview: {
