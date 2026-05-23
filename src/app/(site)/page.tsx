@@ -95,8 +95,8 @@ function Hero() {
               <Calendar size={16} className="text-brand-green-deep relative" />
             </span>
             <div className="leading-tight">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">Next available</p>
-              <p className="text-[13.5px] font-bold text-ink mt-0.5">Today · 4:20pm</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">Accepting patients</p>
+              <p className="text-[13.5px] font-bold text-ink mt-0.5">Book online today</p>
             </div>
           </div>
 
