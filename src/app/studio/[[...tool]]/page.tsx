@@ -1,10 +1,11 @@
-"use client";
+import { StudioClient } from "./StudioClient";
 
-import { NextStudio } from "next-sanity/studio";
-import config from "../../../../sanity.config";
+// Statically render the Studio shell — content loads client-side.
+export const dynamic = "force-static";
 
-export const dynamic = "force-dynamic";
+// Use next-sanity's recommended metadata/viewport defaults (noindex, mobile scaling).
+export { metadata, viewport } from "next-sanity/studio";
 
 export default function StudioPage() {
-  return <NextStudio config={config} />;
+  return <StudioClient />;
 }

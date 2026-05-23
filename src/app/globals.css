@@ -1,46 +1,59 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #1a1a2e;
+@theme inline {
+  /* ── Fonts (wired up by app/layout.tsx via next/font/google) ── */
+  --font-sans: var(--font-manrope, "Manrope"), system-ui, sans-serif;
+  --font-display: var(--font-playfair, "Playfair Display"), serif;
+  --font-brand: var(--font-lobster, "Lobster"), cursive;
+
+  /* ── Warm cream surface palette ── */
+  --color-cream-50:  #FBF8F2;
+  --color-cream-100: #F6F0E4;
+  --color-cream-200: #EFE6D3;
+  --color-cream-300: #E5D8BC;
+
+  /* ── Text colours ── */
+  --color-ink:      #1B1A17;   /* primary text */
+  --color-charcoal: #58585A;   /* exact logo text colour */
+  --color-muted:    #7A7873;
+  --color-line:     #E8E1D3;
+
+  /* ── Brand — exact values from AFMC.svg ── */
+  --color-brand-blue:         #049EE0;
+  --color-brand-green:        #4EB749;
+  --color-brand-green-deep:   #2e7d3a;  /* AA on white-text CTAs */
+  --color-brand-green-darker: #256830;  /* hover */
+  --color-brand-purple:       #862A90;
+  --color-brand-purple-deep:  #601f69;
+
+  /* ── Tints ── */
+  --color-green-tint:  #E6F4E8;
+  --color-blue-tint:   #E5F6FD;
+  --color-purple-tint: #F5EAF6;
+  --color-sand-tint:   #F5EBD8;
+
+  /* ── Aliases retained for backwards compat with old code ── */
+  --color-teal:        #049EE0;
+  --color-teal-light:  #E5F6FD;
+  --color-navy:        #1B1A17;
+  --color-navy-dark:   #0F0E0C;
+  --color-cta:         #2e7d3a;
+  --color-cta-hover:   #256830;
+  --color-surface:     #FBF8F2;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-
-  /* ── Primary blues (harmonised with logo blue #4a8fcc) ── */
-  --color-navy:       #1e3a6f;   /* header / hero / section bg */
-  --color-navy-dark:  #142850;   /* footer */
-
-  /* ── Brand colours pulled directly from the logo ── */
-  --color-brand-blue: #4a8fcc;   /* logo blue — links, icons, decorative */
-  --color-teal:       #4a8fcc;   /* alias kept so existing text-teal/bg-teal-light classes work */
-  --color-teal-light: #e8f0fa;   /* icon/tag backgrounds — blue tint (no cyan cast) */
-
-  /* ── CTA — deepened logo green (passes WCAG AA with white text) ── */
-  --color-cta:        #2e7d3a;
-  --color-cta-hover:  #256830;
-
-  /* ── Specialty accent — logo purple system ── */
-  --color-purple:       #6b3fa0;   /* canonical accent — slightly cleaner than raw logo */
-  --color-purple-deep:  #4e2d78;   /* text on tint, hover states */
-  --color-purple-soft:  #8a63bd;   /* icons on dark backgrounds */
-  --color-purple-tint:  #efe8f7;   /* card/badge fills */
-  --color-purple-wash:  #f8f4fc;   /* very subtle section background */
-  --color-purple-light: #f2ebf8;   /* kept for backwards compat */
-
-  /* ── Soft tints ── */
-  --color-green-light: #e6f4e8;
-  --color-surface:     #f7f9fc;
-
-  /* ── Typography ── */
-  --color-muted: #5b6b80;
+:root {
+  --background: #FBF8F2;
+  --foreground: #1B1A17;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* Smooth scroll for in-page nav */
+html { scroll-behavior: smooth; }
+
+/* Logo wordmark — matches official brand logo */
+.font-brand { font-family: var(--font-brand); }

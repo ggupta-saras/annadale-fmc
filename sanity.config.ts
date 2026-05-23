@@ -1,13 +1,15 @@
+'use client'
+
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
-import { visionTool } from "@sanity/vision";
-import { schema } from "@/sanity/schemas";
+import { schema } from "./src/sanity/schemas";
 
 export default defineConfig({
+  basePath: "/studio",
   name: "annadale-fmc",
   title: "Annadale FMC",
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  projectId: "38z2bpae",
+  dataset: "production",
   plugins: [
     structureTool({
       structure: (S) =>
@@ -28,7 +30,6 @@ export default defineConfig({
             S.documentTypeListItem("announcement").title("Announcements"),
           ]),
     }),
-    visionTool(),
   ],
   schema,
 });

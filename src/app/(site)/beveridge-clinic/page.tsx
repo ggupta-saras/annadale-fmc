@@ -1,126 +1,121 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CalendarDays, MapPin, Stethoscope, Heart, Brain, Pill, ClipboardList } from "lucide-react";
+import { MapPin, Calendar, Phone, ArrowRight, ArrowUpRight, Stethoscope, Brain, Baby, Activity, Check } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
+import { Pill, FinalCTA } from "@/components/ui";
+
+// HouseHeart is available in lucide-react 1.16.0
+import { HouseHeart } from "lucide-react";
+// Pill icon from lucide (aliased to avoid conflict with ui Pill)
+import { Pill as PillIcon, Wallet } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Beveridge Pop-Up Clinic",
-  description: "Annadale FMC operates a weekly outreach GP clinic in Beveridge. General consultations, prescriptions, referrals, and more. Medicare rebates available.",
+  title: "Beveridge Clinic",
+  description: "Annadale FMC's weekly pop-up GP clinic in Beveridge, VIC — general consultations, chronic disease care, mental health plans and more.",
 };
 
-const services = [
-  { icon: Stethoscope, label: "General consultations" },
-  { icon: Pill, label: "Prescriptions" },
-  { icon: ClipboardList, label: "Specialist referrals" },
-  { icon: Heart, label: "Chronic disease reviews" },
-  { icon: Brain, label: "Mental health care plans" },
-];
-
-export default function BeveridgeClinicPage() {
+export default function BeveridgePage() {
   return (
     <>
-      <section className="bg-navy text-white py-14 px-4">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-blue-300 text-xs font-semibold uppercase tracking-widest mb-2">
-            Outreach Service
-          </p>
-          <h1 className="text-3xl font-bold mb-3">Beveridge Pop-Up GP Clinic</h1>
-          <p className="text-blue-200">
-            Bringing quality, bulk-billed general practice care closer to Beveridge residents.
-          </p>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-32 -right-32 w-[480px] h-[480px] rounded-full bg-purple-tint/60 blur-3xl" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-16 md:pt-24 pb-10 grid lg:grid-cols-[1.1fr_1fr] gap-12 items-end">
+          <div>
+            <Pill tone="purple" icon={<MapPin size={11} />}>Outreach clinic · Beveridge</Pill>
+            <h1 className="font-display text-[48px] md:text-[76px] leading-[1.02] tracking-tight text-ink mt-5">
+              The Beveridge
+              <br /><em className="italic text-brand-purple-deep">pop-up clinic.</em>
+            </h1>
+            <p className="text-charcoal/75 text-[17px] mt-6 max-w-xl leading-relaxed">
+              We bring our Mickleham GPs to Beveridge twice a week — so families on the northern edge of the growth corridor
+              can see their doctor without the drive. Fully bulk billed for all Medicare cardholders, same as our Mickleham practice.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <a href={siteConfig.booking.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-brand-purple hover:bg-brand-purple-deep text-white font-semibold px-5 py-3 rounded-full">
+                <Calendar size={15} /> Book a Beveridge appointment
+              </a>
+              <a href={siteConfig.phoneHref} className="inline-flex items-center gap-2 border border-ink/15 hover:bg-ink/5 text-ink font-semibold px-5 py-3 rounded-full">
+                <Phone size={15} /> Call to ask
+              </a>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] border border-line p-6 md:p-7">
+            <div className="pb-4 border-b border-line">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Beveridge sessions</p>
+              <p className="font-display italic text-2xl text-ink mt-1">Weekly outreach clinic</p>
+            </div>
+            <div className="py-5 space-y-3 text-[14px] text-charcoal/80">
+              <p>Our Mickleham GPs rotate through the Beveridge clinic on a weekly basis.</p>
+              <p>To confirm this week&apos;s session times and available doctors, please call us or check online booking.</p>
+            </div>
+            <div className="flex flex-col gap-2 pt-2">
+              <a href={siteConfig.booking.url} target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 bg-ink hover:bg-ink/85 text-white font-semibold px-4 py-3 rounded-full text-[14px]">
+                Check availability <ArrowRight size={14} />
+              </a>
+              <a href={siteConfig.phoneHref} className="w-full inline-flex items-center justify-center gap-2 border border-ink/15 hover:bg-ink/5 text-ink font-semibold px-4 py-3 rounded-full text-[14px]">
+                Call {siteConfig.phone}
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="py-14 px-4">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <div>
-            <h2 className="font-bold text-navy text-lg mb-4">About This Clinic</h2>
-            <p className="text-slate-500 text-sm leading-relaxed mb-4">
-              Annadale Family Medical Centre operates a weekly outreach GP clinic in Beveridge,
-              providing accessible healthcare to the local community. The clinic runs one day
-              per week, by appointment only.
-            </p>
-            <p className="text-slate-500 text-sm leading-relaxed mb-6">
-              All services are bulk billed — Medicare rebates are available for eligible patients,
-              meaning no out-of-pocket costs.
-            </p>
+      <section className="py-16 md:py-20 px-5 md:px-6">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="font-display text-3xl md:text-4xl text-ink mb-8">What&apos;s available at the Beveridge clinic</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+            {[
+              { Icon: Stethoscope, title: "General consultations",     desc: "Acute illness, injuries, scripts and referrals." },
+              { Icon: HouseHeart,  title: "Chronic disease reviews",   desc: "Follow-up management plans without travelling to Mickleham." },
+              { Icon: Brain,       title: "Mental health plans",       desc: "Mental Health Care Plans and review consultations." },
+              { Icon: Baby,        title: "Child & family health",     desc: "Vaccinations, growth checks and general family care." },
+              { Icon: Activity,    title: "Women's health",            desc: "Cervical screening, contraception, antenatal shared care." },
+              { Icon: PillIcon,    title: "Prescriptions & referrals", desc: "Repeat scripts, specialist referrals and care coordination." },
+            ].map(({ Icon, title, desc }, i) => (
+              <div key={i} className="bg-white rounded-3xl border border-line p-6">
+                <div className="w-12 h-12 rounded-2xl bg-purple-tint text-brand-purple-deep grid place-items-center"><Icon size={22} /></div>
+                <h3 className="font-display text-xl mt-4">{title}</h3>
+                <p className="text-[13.5px] text-charcoal/75 mt-1.5 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <h3 className="font-semibold text-navy mb-3">Services Available</h3>
-            <ul className="space-y-2">
-              {services.map(({ icon: Icon, label }) => (
-                <li key={label} className="flex items-center gap-3 text-sm text-slate-600">
-                  <div className="w-8 h-8 bg-teal-light rounded-lg flex items-center justify-center shrink-0">
-                    <Icon size={16} className="text-teal" />
-                  </div>
-                  {label}
-                </li>
-              ))}
+      <section className="py-12 md:py-16 px-5 md:px-6">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-6">
+          <div className="bg-purple-tint rounded-3xl p-7 md:p-9">
+            <Pill tone="white" icon={<MapPin size={11} />}>Location</Pill>
+            <h3 className="font-display italic text-3xl text-brand-purple-deep mt-4">Beveridge Community Hub</h3>
+            <p className="text-charcoal/80 mt-3">Beveridge VIC 3753</p>
+            <p className="text-[13.5px] text-charcoal/75 mt-4 leading-relaxed">
+              Look for the Annadale signage in the community hub. Free on-site parking. Wheelchair accessible.
+              Confirm the exact room when you book — we sometimes move between consult rooms.
+            </p>
+            <a href="https://maps.google.com/?q=Beveridge+Community+Hub+VIC+3753" target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 bg-brand-purple hover:bg-brand-purple-deep text-white font-semibold px-5 py-3 rounded-full">
+              Open in Maps <ArrowUpRight size={14} />
+            </a>
+          </div>
+          <div className="bg-white border border-line rounded-3xl p-7 md:p-9">
+            <Pill tone="green" icon={<Wallet size={11} />}>Billing at Beveridge</Pill>
+            <h3 className="font-display italic text-3xl text-ink mt-4">Fully bulk billed</h3>
+            <p className="text-[14px] text-charcoal/80 mt-4 leading-relaxed">
+              The Beveridge outreach clinic is fully bulk billed for all patients with a valid Medicare card —
+              the same as our Mickleham practice. No out-of-pocket cost for standard consultations. All you need is your Medicare card.
+            </p>
+            <ul className="mt-4 space-y-2 text-[13.5px] text-charcoal/80">
+              <li className="flex items-start gap-2"><Check size={14} className="text-brand-green-deep mt-1 shrink-0" strokeWidth={3} /> No gap fee for Medicare cardholders</li>
+              <li className="flex items-start gap-2"><Check size={14} className="text-brand-green-deep mt-1 shrink-0" strokeWidth={3} /> Same bulk-billing policy as Mickleham</li>
+              <li className="flex items-start gap-2"><Check size={14} className="text-brand-green-deep mt-1 shrink-0" strokeWidth={3} /> Standard &amp; long consults, care plans, referrals</li>
             </ul>
           </div>
-
-          <div className="space-y-5">
-            <div className="bg-navy text-white rounded-xl p-6">
-              <h2 className="font-bold text-lg mb-3 flex items-center gap-2">
-                <CalendarDays size={18} className="text-blue-300" />
-                Book an Appointment
-              </h2>
-              <p className="text-blue-200 text-sm mb-4">
-                Appointments are required — walk-ins are not available at this location.
-                Book online or call our main clinic.
-              </p>
-              <a
-                href={siteConfig.booking.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-cta hover:bg-cta-hover text-white font-semibold px-5 py-2.5 rounded-full transition-colors text-sm"
-              >
-                Book via {siteConfig.booking.provider}
-              </a>
-              <p className="text-xs text-blue-300 mt-3">
-                Or call <a href={siteConfig.phoneHref} className="underline">{siteConfig.phone}</a>
-              </p>
-            </div>
-
-            <div className="bg-surface border border-slate-200 rounded-xl p-5">
-              <h3 className="font-semibold text-navy text-sm mb-3 flex items-center gap-2">
-                <MapPin size={16} className="text-teal" />
-                Location
-              </h3>
-              <p className="text-sm text-slate-600 mb-2">Beveridge, VIC</p>
-              <p className="text-xs text-slate-500">
-                Exact address provided upon booking. <br />
-                <strong>Schedule:</strong> 1 day per week — by appointment only.
-              </p>
-            </div>
-
-            <div className="bg-green-50 border border-green-200 rounded-xl p-5">
-              <p className="text-sm font-semibold text-green-800 mb-1">✓ Fully Bulk Billed</p>
-              <p className="text-xs text-green-700">
-                Medicare rebates available for all eligible services. No gap payments.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
-      <section className="py-10 px-4 bg-surface border-t border-slate-100 text-center">
-        <p className="text-slate-500 text-sm mb-3">
-          For general enquiries about the Beveridge clinic, contact our main practice:
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <a href={siteConfig.phoneHref} className="text-teal font-semibold hover:underline text-sm">
-            {siteConfig.phone}
-          </a>
-          <span className="text-slate-300 hidden sm:block">·</span>
-          <a href={`mailto:${siteConfig.email}`} className="text-teal font-semibold hover:underline text-sm">
-            {siteConfig.email}
-          </a>
-          <span className="text-slate-300 hidden sm:block">·</span>
-          <Link href="/contact" className="text-teal font-semibold hover:underline text-sm">
-            Contact page →
-          </Link>
-        </div>
-      </section>
+      <FinalCTA />
     </>
   );
 }

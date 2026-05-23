@@ -1,171 +1,82 @@
 import type { Metadata } from "next";
-import { Phone, Mail, MapPin, Clock, CalendarDays, AlertTriangle } from "lucide-react";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
-// Hours now come from siteConfig — updated to reflect Mon–Sun schedule
+import { Pill, FinalCTA } from "@/components/ui";
+import { ContactForm } from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Contact Annadale Family Medical Centre — phone, address, opening hours, and online booking.",
+  description: "Get in touch with Annadale Family Medical Centre — phone, email, address, or send us a message.",
 };
 
 export default function ContactPage() {
   return (
     <>
-      <section className="bg-navy text-white py-14 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-3xl font-bold mb-3">Contact Us</h1>
-          <p className="text-blue-200">Our team is ready to help. Call, email, or book online — whatever works for you.</p>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-32 -left-20 w-[420px] h-[420px] rounded-full bg-green-tint/60 blur-3xl" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-16 md:pt-24 pb-10">
+          <Pill tone="green">Get in touch</Pill>
+          <h1 className="font-display text-[48px] md:text-[76px] leading-[1.02] tracking-tight text-ink mt-5 max-w-4xl">
+            Visit, call,
+            <br /><em className="italic">or send us a note.</em>
+          </h1>
+          <p className="text-charcoal/75 text-[17px] mt-6 max-w-xl leading-relaxed">
+            For appointments, please use online booking or phone. Use the form below for non-urgent enquiries — we&apos;ll
+            reply within one business day.
+          </p>
         </div>
       </section>
 
-      <section className="py-14 px-4">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Contact info */}
-          <div className="space-y-8">
-            <div>
-              <h2 className="font-bold text-navy text-lg mb-4">Get in Touch</h2>
-              <ul className="space-y-4">
-                <li className="flex gap-3">
-                  <Phone size={18} className="text-teal shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-sm text-navy">Phone</p>
-                    <a href={siteConfig.phoneHref} className="text-teal hover:underline text-sm">
-                      {siteConfig.phone}
-                    </a>
-                  </div>
-                </li>
-                <li className="flex gap-3">
-                  <Mail size={18} className="text-teal shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-sm text-navy">Email</p>
-                    <a href={`mailto:${siteConfig.email}`} className="text-teal hover:underline text-sm">
-                      {siteConfig.email}
-                    </a>
-                  </div>
-                </li>
-                <li className="flex gap-3">
-                  <MapPin size={18} className="text-teal shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-sm text-navy">Address</p>
-                    <p className="text-slate-500 text-sm">
-                      {siteConfig.address.street}<br />
-                      {siteConfig.address.suburb} {siteConfig.address.state} {siteConfig.address.postcode}
-                    </p>
-                    <a
-                      href={siteConfig.address.mapsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-teal hover:underline mt-1 inline-block"
-                    >
-                      Get directions →
-                    </a>
-                  </div>
-                </li>
+      <section className="py-8 px-5 md:px-6">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-4 md:gap-5">
+          {[
+            { Icon: Phone,  label: "Phone",   val: siteConfig.phone,   sub: "Mon–Sun, during opening hours", href: siteConfig.phoneHref },
+            { Icon: Mail,   label: "Email",   val: siteConfig.email,   sub: "Non-urgent enquiries only",     href: `mailto:${siteConfig.email}` },
+            { Icon: MapPin, label: "Address", val: siteConfig.address.full, sub: "Free parking on-site",    href: siteConfig.address.mapsUrl },
+          ].map(({ Icon, label, val, sub, href }, i) => (
+            <a key={i} href={href} target={i === 2 ? "_blank" : undefined} rel={i === 2 ? "noopener noreferrer" : undefined} className="group bg-white rounded-3xl border border-line p-6 hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow block">
+              <div className="w-11 h-11 rounded-2xl bg-green-tint text-brand-green-deep grid place-items-center"><Icon size={20} /></div>
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted mt-5">{label}</p>
+              <p className="font-display italic text-[22px] text-ink mt-1 leading-tight">{val}</p>
+              <p className="text-[12.5px] text-muted mt-2">{sub}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-12 md:py-16 px-5 md:px-6">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-[1.3fr_1fr] gap-8">
+          <ContactForm />
+
+          <div className="space-y-5">
+            <div className="bg-ink text-cream-100 rounded-3xl p-7">
+              <Pill tone="green" className="!bg-white/10 !text-cream-100" icon={<Clock size={11} />}>Opening hours</Pill>
+              <ul className="mt-5 divide-y divide-white/10 text-[14px]">
+                {[
+                  { day: "Monday – Friday", t: "9:00am – 5:30pm" },
+                  { day: "Saturday",        t: "10:00am – 4:00pm" },
+                  { day: "Sunday",          t: "9:00am – 4:00pm" },
+                  { day: "Public Holidays", t: "Closed" },
+                ].map((h, i) => (
+                  <li key={i} className="flex justify-between py-3"><span className="text-cream-100/80">{h.day}</span><span className="font-semibold">{h.t}</span></li>
+                ))}
               </ul>
             </div>
-
-            <div>
-              <h2 className="font-bold text-navy text-lg mb-4 flex items-center gap-2">
-                <Clock size={18} className="text-teal" />
-                Opening Hours
-              </h2>
-              <table className="w-full text-sm">
-                <tbody>
-                  {siteConfig.hours.map(({ day, time }) => (
-                    <tr key={day} className="border-b border-slate-100">
-                      <td className="py-2 font-medium text-navy">{day}</td>
-                      <td className="py-2 text-right text-slate-500">{time}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Booking + urgent */}
-          <div className="space-y-6">
-            <div className="bg-navy text-white rounded-xl p-6">
-              <h2 className="font-bold text-lg mb-2 flex items-center gap-2">
-                <CalendarDays size={18} className="text-blue-300" />
-                Book an Appointment
-              </h2>
-              <p className="text-blue-200 text-sm mb-4">
-                Our online booking is open around the clock. Choose a time that suits you.
-              </p>
-              <a
-                href={siteConfig.booking.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-cta hover:bg-cta-hover text-white font-semibold px-5 py-2.5 rounded-full transition-colors text-sm"
-              >
-                Book via {siteConfig.booking.provider}
-              </a>
-              <p className="text-xs text-blue-300 mt-3">
-                Prefer to call? Ring us on {siteConfig.phone} during business hours.
-              </p>
-            </div>
-
-            <div className="bg-red-50 border border-red-200 rounded-xl p-5">
-              <h2 className="font-bold text-red-800 mb-2 flex items-center gap-2 text-sm">
-                <AlertTriangle size={16} />
-                Emergencies
-              </h2>
-              <p className="text-red-700 text-sm">
-                For life-threatening emergencies, call <strong>{siteConfig.afterHours.emergency}</strong> immediately.
-              </p>
-            </div>
-
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
-              <h2 className="font-bold text-amber-900 mb-2 text-sm">After Hours Care</h2>
-              <ul className="text-amber-800 text-sm space-y-1">
-                <li><strong>13SICK:</strong> {siteConfig.afterHours.homeDoctors} — Home visit service</li>
-                <li><strong>Healthdirect:</strong> {siteConfig.afterHours.healthdirect} — Free health advice line (24hrs)</li>
-                <li>
-                  <strong>Nearest ED:</strong>{" "}
-                  <a
-                    href="https://maps.google.com/?q=Northern+Hospital+Epping+VIC"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline"
-                  >
-                    Northern Hospital, Epping
-                  </a>
-                </li>
+            <div className="bg-sand-tint/70 border border-[#E5D29B] rounded-3xl p-6">
+              <p className="font-display italic text-xl text-ink">Outside our hours?</p>
+              <ul className="mt-3 space-y-2 text-[13.5px] text-charcoal/85">
+                <li><strong>Home Doctors</strong> · {siteConfig.afterHours.homeDoctors}</li>
+                <li><strong>Healthdirect</strong> · {siteConfig.afterHours.healthdirect} (24/7 nurse advice)</li>
+                <li><strong>Emergency</strong> · {siteConfig.afterHours.emergency}</li>
               </ul>
-            </div>
-
-            <div className="bg-surface border border-slate-200 rounded-xl p-5 text-sm">
-              <h2 className="font-bold text-navy mb-2">Feedback &amp; Complaints</h2>
-              <p className="text-slate-500 mb-2">
-                We welcome feedback to help us improve. Please speak with our Practice Manager
-                or email us.
-              </p>
-              <a
-                href={`mailto:${siteConfig.email}`}
-                className="text-teal hover:underline font-medium"
-              >
-                Send feedback →
-              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Map */}
-      <section className="h-64 bg-slate-200 flex items-center justify-center text-slate-400 text-sm">
-        <div className="text-center">
-          <MapPin size={32} className="mx-auto mb-2 opacity-40" />
-          <p>2/3 Enderby Dr, Mickleham VIC 3064</p>
-          <a
-            href={siteConfig.address.mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-teal hover:underline text-xs mt-1 inline-block"
-          >
-            Open in Google Maps →
-          </a>
-        </div>
-      </section>
+      <FinalCTA />
     </>
   );
 }

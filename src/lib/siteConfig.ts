@@ -29,5 +29,5 @@ export const siteConfig = {
     emergency: "000",
   },
   bulkBilling: true,
-  facebook: "https://www.facebook.com/annadalefmc",
+  facebook: "https://www.facebook.com/AnndaleFMC/",
 };
