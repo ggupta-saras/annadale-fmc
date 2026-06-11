@@ -8,27 +8,50 @@ import {
 } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 import { BulkBilledBadge, Pill, CTAGroup, TrustStrip, AfterHoursStrip, FinalCTA } from "@/components/ui";
+import { client } from "@/sanity/lib/client";
 
-export const metadata: Metadata = {
-  title: { absolute: "Annadale Family Medical Centre — Fully bulk-billed GP in Mickleham" },
-  description:
-    "A fully bulk-billed family medical centre in Mickleham, VIC. Open 7 days, welcoming new patients. Book online with HealthEngine.",
-};
+export const revalidate = 3600;
 
-function AnnouncementBar() {
+interface HomepageCMS {
+  metaTitle?: string;
+  metaDescription?: string;
+  announcementText?: string;
+  heroHeading?: string;
+  heroSubheading?: string;
+}
+
+async function getHomepage(): Promise<HomepageCMS> {
+  try {
+    return await client.fetch(`*[_type == "homepage"][0]{
+      metaTitle, metaDescription, announcementText, heroHeading, heroSubheading
+    }`) ?? {};
+  } catch {
+    return {};
+  }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cms = await getHomepage();
+  return {
+    title: { absolute: cms.metaTitle ?? "Annadale Family Medical Centre — Fully bulk-billed GP in Mickleham" },
+    description: cms.metaDescription ?? "A fully bulk-billed family medical centre in Mickleham, VIC. Open 7 days, welcoming new patients. Book online with HealthEngine.",
+  };
+}
+
+function AnnouncementBar({ text }: { text?: string }) {
   return (
     <div className="bg-brand-green-deep text-white text-[13px] font-semibold">
       <div className="max-w-7xl mx-auto px-5 py-2.5 flex items-center justify-center gap-2 text-center whitespace-nowrap overflow-hidden">
         <Sparkles size={14} className="opacity-80 shrink-0" />
         <span className="opacity-95 truncate">
-          Fully bulk billed · New patients welcome · Book online with {siteConfig.booking.provider}
+          {text ?? `Fully bulk billed · New patients welcome · Book online with ${siteConfig.booking.provider}`}
         </span>
       </div>
     </div>
   );
 }
 
-function Hero() {
+function Hero({ heading, subheading }: { heading?: string; subheading?: string }) {
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
@@ -44,16 +67,18 @@ function Hero() {
           </div>
 
           <h1 className="font-display text-[44px] md:text-[64px] xl:text-[76px] leading-[1.02] text-ink tracking-tight">
-            Family medicine,
-            <br />
-            <em className="italic font-extrabold">made personal</em>
-            <span className="text-brand-green">.</span>
+            {heading ?? (
+              <>
+                Family medicine,
+                <br />
+                <em className="italic font-extrabold">made personal</em>
+                <span className="text-brand-green">.</span>
+              </>
+            )}
           </h1>
 
           <p className="mt-7 text-[17px] md:text-[18.5px] text-charcoal/80 leading-relaxed max-w-[560px]">
-            A neighbourhood practice in Mickleham — open seven days, fully bulk billed, with doctors who take the time
-            to know your whole family. Whether it&apos;s a routine check, a child&apos;s first visit, or ongoing care for a chronic
-            condition, we&apos;re here.
+            {subheading ?? "A neighbourhood practice in Mickleham — open seven days, fully bulk billed, with doctors who take the time to know your whole family. Whether it’s a routine check, a child’s first visit, or ongoing care for a chronic condition, we’re here."}
           </p>
 
           <div className="mt-9">
@@ -413,11 +438,12 @@ function HoursMap() {
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const cms = await getHomepage();
   return (
     <>
-      <AnnouncementBar />
-      <Hero />
+      <AnnouncementBar text={cms.announcementText} />
+      <Hero heading={cms.heroHeading} subheading={cms.heroSubheading} />
       <TrustStrip />
       <ServicesSection />
       <WhyUs />
