@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function ServicesPage() {
   const services: SanityService[] = await client.fetch(
-    `*[_type == "service"] | order(order asc) {
+    `*[_type == "service" && category != "Allied Health"] | order(order asc) {
       _id, title, icon, category,
       "description": pt::text(description)
     }`

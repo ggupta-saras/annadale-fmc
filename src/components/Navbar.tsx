@@ -8,12 +8,13 @@ import { siteConfig } from "@/lib/siteConfig";
 import { Logo } from "@/components/Logo";
 
 const NAV_LINKS = [
-  { label: "Home",      href: "/" },
-  { label: "About",     href: "/about" },
-  { label: "Services",  href: "/services" },
-  { label: "Team",      href: "/our-team" },
-  { label: "Beveridge", href: "/beveridge-clinic" },
-  { label: "Contact",   href: "/contact" },
+  { label: "Home",          href: "/" },
+  { label: "About",         href: "/about" },
+  { label: "Services",      href: "/services" },
+  { label: "Allied Health", href: "/allied-health" },
+  { label: "Team",          href: "/our-team" },
+  { label: "Beveridge",     href: "/beveridge-clinic" },
+  { label: "Contact",       href: "/contact" },
 ];
 
 export function Navbar() {

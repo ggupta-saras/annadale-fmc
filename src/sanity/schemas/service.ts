@@ -27,6 +27,7 @@ export const service = defineType({
           { title: "Men's", value: "Men's" },
           { title: "Wellbeing", value: "Wellbeing" },
           { title: "Anywhere", value: "Anywhere" },
+          { title: "Allied Health", value: "Allied Health" },
         ],
       },
     }),

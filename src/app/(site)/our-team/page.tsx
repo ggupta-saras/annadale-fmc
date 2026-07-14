@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Stethoscope, ArrowRight } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 import { Pill, FinalCTA } from "@/components/ui";
 import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 
 export const revalidate = 3600; // re-fetch from Sanity at most once per hour
 
@@ -15,6 +17,15 @@ export const metadata: Metadata = {
 // Colours assigned by display order — no colour field needed in Sanity
 const DOCTOR_COLORS = ["#049EE0", "#2e7d3a", "#862A90", "#C8521A", "#1B1A17"];
 
+// Role → accent colour for staff portrait placeholders
+const ROLE_COLORS: Record<string, string> = {
+  "Practice Manager": "#C8521A",
+  "Receptionist":     "#049EE0",
+  "Practice Nurse":   "#2e7d3a",
+  "Nurse":            "#2e7d3a",
+  "Administration":   "#862A90",
+};
+
 interface Doctor {
   _id: string;
   name: string;
@@ -23,6 +34,8 @@ interface Doctor {
   specialInterests: string[] | null;
   languages: string[] | null;
   acceptingNewPatients: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  photo: any | null;
 }
 
 interface StaffMember {
@@ -30,15 +43,56 @@ interface StaffMember {
   name: string;
   role: string;
   bio: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  photo: any | null;
 }
 
-function DoctorPortrait({ name, color }: { name: string; color: string }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function PortraitPhoto({ photo, name }: { photo: any; name: string }) {
+  return (
+    <Image
+      src={urlFor(photo).width(480).height(600).fit("crop").url()}
+      alt={name}
+      fill
+      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+      className="object-cover"
+    />
+  );
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function StaffPortrait({ name, role, photo }: { name: string; role: string; photo: any }) {
+  const color = ROLE_COLORS[role] ?? "#049EE0";
+  const initial = name[0];
+  return (
+    <div className="aspect-[4/5] rounded-2xl overflow-hidden relative" style={{ background: `linear-gradient(135deg, ${color}26, ${color}10)` }}>
+      {photo ? (
+        <PortraitPhoto photo={photo} name={name} />
+      ) : (
+        <div className="absolute inset-0 grid place-items-center">
+          <span className="font-display italic font-extrabold text-[64px]" style={{ color, opacity: 0.55 }}>{initial}</span>
+        </div>
+      )}
+      <span className="absolute bottom-2.5 left-2.5 inline-flex items-center gap-1.5 bg-white/95 rounded-full px-2.5 py-1 text-[11px] font-semibold" style={{ color }}>
+        <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
+        {role}
+      </span>
+    </div>
+  );
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function DoctorPortrait({ name, color, photo }: { name: string; color: string; photo: any }) {
   const initial = name.split(" ").slice(-1)[0][0];
   return (
     <div className="aspect-[4/5] rounded-2xl overflow-hidden relative" style={{ background: `linear-gradient(135deg, ${color}26, ${color}10)` }}>
-      <div className="absolute inset-0 grid place-items-center">
-        <span className="font-display italic font-extrabold text-[64px]" style={{ color, opacity: 0.55 }}>{initial}</span>
-      </div>
+      {photo ? (
+        <PortraitPhoto photo={photo} name={name} />
+      ) : (
+        <div className="absolute inset-0 grid place-items-center">
+          <span className="font-display italic font-extrabold text-[64px]" style={{ color, opacity: 0.55 }}>{initial}</span>
+        </div>
+      )}
       <span className="absolute bottom-2.5 left-2.5 inline-flex items-center gap-1.5 bg-white/95 rounded-full px-2.5 py-1 text-[11px] font-semibold" style={{ color }}>
         <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
         Accepting
@@ -51,13 +105,13 @@ export default async function OurTeamPage() {
   const [doctors, staff]: [Doctor[], StaffMember[]] = await Promise.all([
     client.fetch(
       `*[_type == "doctor"] | order(order asc) {
-        _id, name, qualifications,
+        _id, name, qualifications, photo,
         "bio": pt::text(bio),
         specialInterests, languages, acceptingNewPatients
       }`
     ),
     client.fetch(
-      `*[_type == "staffMember"] | order(order asc) { _id, name, role, bio }`
+      `*[_type == "staffMember"] | order(order asc) { _id, name, role, bio, photo }`
     ),
   ]);
 
@@ -94,7 +148,7 @@ export default async function OurTeamPage() {
               const roleLabel = d.qualifications ? `GP · ${d.qualifications}` : "GP";
               return (
                 <div key={d._id} className="bg-white rounded-3xl border border-line p-5 hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow">
-                  <DoctorPortrait name={d.name} color={color} />
+                  <DoctorPortrait name={d.name} color={color} photo={d.photo} />
                   <div className="mt-5">
                     <p className="font-semibold text-ink text-[16px] leading-tight">{d.name}</p>
                     <p className="text-[12.5px] text-muted mt-0.5">{roleLabel}</p>
@@ -129,14 +183,16 @@ export default async function OurTeamPage() {
           <h2 className="font-display italic text-3xl text-charcoal mb-6">Nurses &amp; Practice Team</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {staff.map((n) => (
-              <div key={n._id} className="bg-white rounded-3xl border border-line p-6 flex items-start gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-blue-tint grid place-items-center text-brand-blue shrink-0">
-                  <span className="font-display italic font-bold text-2xl">{n.name[0]}</span>
+              <div key={n._id} className="bg-white rounded-3xl border border-line p-4 hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow">
+                <div className="w-[85%] mx-auto">
+                  <StaffPortrait name={n.name} role={n.role} photo={n.photo} />
                 </div>
-                <div>
-                  <p className="font-semibold text-ink">{n.name}</p>
-                  <p className="text-[12.5px] text-muted">{n.role}</p>
-                  {n.bio && <p className="text-[13px] text-charcoal/75 mt-2">{n.bio}</p>}
+                <div className="mt-4">
+                  <p className="font-semibold text-ink text-[16px] leading-tight">{n.name}</p>
+                  <p className="text-[12.5px] text-muted mt-0.5">{n.role}</p>
+                  {n.bio && (
+                    <p className="text-[13.5px] text-charcoal/80 mt-3 leading-relaxed">{n.bio}</p>
+                  )}
                 </div>
               </div>
             ))}
