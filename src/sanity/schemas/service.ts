@@ -34,7 +34,7 @@ export const service = defineType({
     defineField({ name: "order", title: "Display Order", type: "number", initialValue: 99 }),
   ],
   preview: {
-    select: { title: "title" },
+    select: { title: "title", subtitle: "category" },
   },
   orderings: [
     { title: "Display Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] },
