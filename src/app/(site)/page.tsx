@@ -7,10 +7,39 @@ import {
   Video, CheckCircle, Check, Star, Sparkles, Compass,
 } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
-import { BulkBilledBadge, Pill, CTAGroup, TrustStrip, AfterHoursStrip, FinalCTA } from "@/components/ui";
+import { BulkBilledBadge, Pill, CTAGroup, TrustStrip, AfterHoursStrip, FinalCTA, PersonPortrait } from "@/components/ui";
 import { client } from "@/sanity/lib/client";
 
-export const revalidate = 3600;
+// Fallback time-based refresh (60s). Publishing in Sanity also triggers an
+// instant refresh via the /api/revalidate webhook + cache tags.
+export const revalidate = 60;
+
+// Colours assigned by display order — kept in sync with our-team/page.tsx
+// so the same doctor shows the same accent colour on both pages.
+const DOCTOR_COLORS = ["#049EE0", "#2e7d3a", "#862A90", "#C8521A", "#1B1A17"];
+
+interface DoctorTeaser {
+  _id: string;
+  name: string;
+  qualifications: string | null;
+  specialInterests: string[] | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  photo: any | null;
+}
+
+async function getDoctorTeasers(): Promise<DoctorTeaser[]> {
+  try {
+    return await client.fetch(
+      `*[_type == "doctor"] | order(order asc) [0...3] {
+        _id, name, qualifications, specialInterests, photo
+      }`,
+      {},
+      { next: { tags: ["doctors"], revalidate: 60 } }
+    ) ?? [];
+  } catch {
+    return [];
+  }
+}
 
 interface HomepageCMS {
   metaTitle?: string;
@@ -22,9 +51,13 @@ interface HomepageCMS {
 
 async function getHomepage(): Promise<HomepageCMS> {
   try {
-    return await client.fetch(`*[_type == "homepage"][0]{
-      metaTitle, metaDescription, announcementText, heroHeading, heroSubheading
-    }`) ?? {};
+    return await client.fetch(
+      `*[_type == "homepage"][0]{
+        metaTitle, metaDescription, announcementText, heroHeading, heroSubheading
+      }`,
+      {},
+      { next: { tags: ["homepage"], revalidate: 60 } }
+    ) ?? {};
   } catch {
     return {};
   }
@@ -309,12 +342,9 @@ function BeveridgeSection() {
   );
 }
 
-function DoctorsSection() {
-  const docs = [
-    { name:"Dr. Simon Goode",        role:"GP",              specialty:"General practice, family medicine", color:"#049EE0" },
-    { name:"Dr. Wasantha Gunathilake", role:"GP · MBBS, FRACGP", specialty:"Chronic disease, cardiology",  color:"#2e7d3a" },
-    { name:"Dr. Michael Yuen",       role:"GP",              specialty:"General practice, community health", color:"#862A90" },
-  ];
+function DoctorsSection({ doctors }: { doctors: DoctorTeaser[] }) {
+  if (doctors.length === 0) return null;
+
   return (
     <section className="py-20 md:py-24 bg-cream-100/60">
       <div className="max-w-7xl mx-auto px-5 md:px-6">
@@ -331,24 +361,22 @@ function DoctorsSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-          {docs.map((d, i) => (
-            <div key={i} className="bg-white rounded-3xl p-5 border border-line hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow">
-              <div className="aspect-[4/5] rounded-2xl overflow-hidden mb-4 relative" style={{background:`linear-gradient(135deg, ${d.color}26, ${d.color}10)`}}>
-                <div className="absolute inset-0 grid place-items-center">
-                  <span className="font-display italic font-extrabold text-6xl" style={{color:d.color, opacity:.55}}>
-                    {d.name.split(" ").slice(-1)[0][0]}
-                  </span>
+          {doctors.map((d, i) => {
+            const color = DOCTOR_COLORS[i % DOCTOR_COLORS.length];
+            const roleLabel = d.qualifications ? `GP · ${d.qualifications}` : "GP";
+            return (
+              <div key={d._id} className="bg-white rounded-3xl p-5 border border-line hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow">
+                <div className="mb-4">
+                  <PersonPortrait name={d.name} color={color} badge="Accepting" photo={d.photo} />
                 </div>
-                <span className="absolute bottom-2.5 left-2.5 inline-flex items-center gap-1.5 bg-white/95 rounded-full px-2.5 py-1 text-[11px] font-semibold" style={{color:d.color}}>
-                  <span className="w-1.5 h-1.5 rounded-full" style={{background:d.color}} />
-                  Accepting
-                </span>
+                <p className="font-semibold text-ink text-[15px] leading-tight">{d.name}</p>
+                <p className="text-[12.5px] text-muted mt-0.5">{roleLabel}</p>
+                {d.specialInterests && d.specialInterests.length > 0 && (
+                  <p className="text-[12.5px] text-charcoal/75 mt-2 leading-snug">{d.specialInterests.join(", ")}</p>
+                )}
               </div>
-              <p className="font-semibold text-ink text-[15px] leading-tight">{d.name}</p>
-              <p className="text-[12.5px] text-muted mt-0.5">{d.role}</p>
-              <p className="text-[12.5px] text-charcoal/75 mt-2 leading-snug">{d.specialty}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -439,7 +467,7 @@ function HoursMap() {
 }
 
 export default async function HomePage() {
-  const cms = await getHomepage();
+  const [cms, doctors] = await Promise.all([getHomepage(), getDoctorTeasers()]);
   return (
     <>
       <AnnouncementBar text={cms.announcementText} />
@@ -448,7 +476,7 @@ export default async function HomePage() {
       <ServicesSection />
       <WhyUs />
       <BeveridgeSection />
-      <DoctorsSection />
+      <DoctorsSection doctors={doctors} />
       <HoursMap />
       <AfterHoursStrip />
       <FinalCTA />

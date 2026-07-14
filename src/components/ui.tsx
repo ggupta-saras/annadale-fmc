@@ -1,7 +1,47 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { LucideIcon } from "lucide-react";
 import { Check, Calendar, Phone, ArrowRight, ArrowUpRight, MapPin, Wallet, Clock, Heart, Video } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
+import { urlFor } from "@/sanity/lib/image";
+
+// ── Person portrait — Sanity photo when present, initial-letter avatar otherwise.
+// Shared by homepage doctor teasers and the full Our Team page (doctors + staff).
+export function PersonPortrait({
+  name,
+  color,
+  badge,
+  photo,
+}: {
+  name: string;
+  color: string;
+  badge: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  photo?: any;
+}) {
+  const initial = name.split(" ").filter(Boolean).slice(-1)[0]?.[0] ?? name[0];
+  return (
+    <div className="aspect-[4/5] rounded-2xl overflow-hidden relative" style={{ background: `linear-gradient(135deg, ${color}26, ${color}10)` }}>
+      {photo ? (
+        <Image
+          src={urlFor(photo).width(480).height(600).fit("crop").url()}
+          alt={name}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover"
+        />
+      ) : (
+        <div className="absolute inset-0 grid place-items-center">
+          <span className="font-display italic font-extrabold text-[64px]" style={{ color, opacity: 0.55 }}>{initial}</span>
+        </div>
+      )}
+      <span className="absolute bottom-2.5 left-2.5 inline-flex items-center gap-1.5 bg-white/95 rounded-full px-2.5 py-1 text-[11px] font-semibold" style={{ color }}>
+        <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
+        {badge}
+      </span>
+    </div>
+  );
+}
 
 // ── Bulk-billed badge — the single most important brand element on the page
 export function BulkBilledBadge({

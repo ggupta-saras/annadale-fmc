@@ -26,7 +26,19 @@ export const staffMember = defineType({
       type: "image",
       options: { hotspot: true },
     }),
-    defineField({ name: "bio", title: "Short Bio", type: "text", rows: 3 }),
+    defineField({
+      name: "bio",
+      title: "Short Bio",
+      type: "text",
+      rows: 3,
+      description: "50 words max — shown on the Our Team page.",
+      validation: (Rule) =>
+        Rule.custom((text: string | undefined) => {
+          if (!text) return true;
+          const count = text.trim().split(/\s+/).filter(Boolean).length;
+          return count <= 50 || `${count} words — please trim to 50 or fewer.`;
+        }),
+    }),
     defineField({ name: "order", title: "Display Order", type: "number", initialValue: 99 }),
   ],
   preview: {

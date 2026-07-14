@@ -9,7 +9,9 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-export const revalidate = 3600;
+// Fallback refresh (60s). Publishing a service in Sanity also triggers an
+// instant refresh via the /api/revalidate webhook + the "services" cache tag.
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Allied Health",
@@ -33,7 +35,9 @@ export default async function AlliedHealthPage() {
     `*[_type == "service" && category == "Allied Health"] | order(order asc) {
       _id, title, icon,
       "description": pt::text(description)
-    }`
+    }`,
+    {},
+    { next: { tags: ["services"], revalidate: 60 } }
   );
 
   return (
