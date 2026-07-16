@@ -3,6 +3,7 @@ import { Phone, Calendar, HeartHandshake, Stethoscope, ArrowRight } from "lucide
 import { siteConfig } from "@/lib/siteConfig";
 import { Pill } from "@/components/ui";
 import { client } from "@/sanity/lib/client";
+import { slugify } from "@/lib/slugify";
 import {
   Heart, Baby, Brain, Activity, Syringe, Users, User, Shield,
   ShieldCheck, Pill as PillIcon, Sun, ScanLine, Video,
@@ -65,7 +66,7 @@ export default async function AlliedHealthPage() {
             {services.map(({ _id, title, description, icon }) => {
               const Icon: LucideIcon = (icon && ICON_MAP[icon]) ? ICON_MAP[icon] : HeartHandshake;
               return (
-                <div key={_id} className="bg-white rounded-3xl p-6 border border-line hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow group">
+                <div key={_id} id={slugify(title)} className="scroll-mt-32 bg-white rounded-3xl p-6 border border-line hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow group">
                   <div className="w-12 h-12 rounded-2xl grid place-items-center bg-purple-tint text-brand-purple-deep">
                     <Icon size={22} />
                   </div>

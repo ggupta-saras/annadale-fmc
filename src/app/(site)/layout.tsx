@@ -3,6 +3,8 @@ import { Manrope, Playfair_Display, Lobster } from "next/font/google";
 import "../globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { client } from "@/sanity/lib/client";
+import { slugify } from "@/lib/slugify";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -36,10 +38,24 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+async function getAlliedHealthNavItems() {
+  try {
+    const services: { title: string }[] = await client.fetch(
+      `*[_type == "service" && category == "Allied Health"] | order(order asc) { title }`,
+      {},
+      { next: { tags: ["services"], revalidate: 60 } }
+    ) ?? [];
+    return services.map((s) => ({ label: s.title, href: `/allied-health#${slugify(s.title)}` }));
+  } catch {
+    return [];
+  }
+}
+
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  const alliedHealthItems = await getAlliedHealthNavItems();
   return (
     <div className={`${manrope.variable} ${playfair.variable} ${lobster.variable} min-h-screen flex flex-col bg-cream-50 text-ink font-sans antialiased`}>
-      <Navbar />
+      <Navbar alliedHealthItems={alliedHealthItems} />
       <main className="flex-1">{children}</main>
       <Footer />
     </div>

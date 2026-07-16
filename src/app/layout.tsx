@@ -3,7 +3,7 @@
 // so that /studio gets a clean document without CSS interference.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-AU">
+    <html lang="en-AU" data-scroll-behavior="smooth">
       <body>{children}</body>
     </html>
   );
