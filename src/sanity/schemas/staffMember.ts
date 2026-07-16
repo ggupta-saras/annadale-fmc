@@ -25,6 +25,11 @@ export const staffMember = defineType({
       title: "Photo",
       type: "image",
       options: { hotspot: true },
+      description: "Only for Nurse / Practice Nurse — front-of-house roles don't show a photo.",
+      hidden: ({ parent }) => {
+        const role = (parent as { role?: string } | undefined)?.role;
+        return role !== "Nurse" && role !== "Practice Nurse";
+      },
     }),
     defineField({
       name: "bio",
