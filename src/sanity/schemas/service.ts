@@ -14,6 +14,20 @@ export const service = defineType({
     }),
     defineField({ name: "icon", title: "Icon Name (lucide-react)", type: "string" }),
     defineField({
+      name: "image",
+      title: "Square Logo / Photo",
+      type: "image",
+      options: { hotspot: true },
+      description: "Small square logo or photo shown on the card. Falls back to the icon above when left blank.",
+    }),
+    defineField({
+      name: "externalBookingUrl",
+      title: "External Booking URL",
+      type: "url",
+      description: "Only for partner-run services with their own booking system (e.g. Infusion Avenue, Kosmetika). Leave blank to show \"Book through reception\" linking to the practice phone number instead.",
+      validation: (Rule) => Rule.uri({ scheme: ["http", "https"] }),
+    }),
+    defineField({
       name: "category",
       title: "Category",
       type: "string",
