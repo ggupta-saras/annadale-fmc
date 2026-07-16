@@ -70,6 +70,12 @@ export default async function OurTeamPage() {
     new Set(doctors.flatMap((d) => d.languages ?? []))
   );
 
+  // Only clinical roles get a photo/portrait treatment — front-of-house
+  // roles (Practice Manager, Receptionist, Administration) show as a
+  // simple text card instead, matching the Studio field being hidden for them.
+  const nurses = staff.filter((n) => n.role === "Nurse" || n.role === "Practice Nurse");
+  const practiceTeam = staff.filter((n) => n.role !== "Nurse" && n.role !== "Practice Nurse");
+
   return (
     <>
       <section className="relative overflow-hidden">
@@ -128,27 +134,58 @@ export default async function OurTeamPage() {
         </div>
       </section>
 
-      <section className="py-12 md:py-16 bg-cream-100/60">
-        <div className="max-w-7xl mx-auto px-5 md:px-6">
-          <h2 className="font-display italic text-3xl text-charcoal mb-6">Nurses &amp; Practice Team</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-            {staff.map((n) => (
-              <div key={n._id} className="bg-white rounded-3xl border border-line p-4 hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow">
-                <div className="w-[85%] mx-auto">
-                  <PersonPortrait name={n.name} color={ROLE_COLORS[n.role] ?? "#049EE0"} badge={n.role} photo={n.photo} />
+      {nurses.length > 0 && (
+        <section className="py-12 md:py-16 bg-cream-100/60">
+          <div className="max-w-7xl mx-auto px-5 md:px-6">
+            <h2 className="font-display italic text-3xl text-charcoal mb-6">Nurses</h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+              {nurses.map((n) => (
+                <div key={n._id} className="bg-white rounded-3xl border border-line p-4 hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow">
+                  <div className="w-[85%] mx-auto">
+                    <PersonPortrait name={n.name} color={ROLE_COLORS[n.role] ?? "#049EE0"} badge={n.role} photo={n.photo} />
+                  </div>
+                  <div className="mt-4">
+                    <p className="font-semibold text-ink text-[16px] leading-tight">{n.name}</p>
+                    <p className="text-[12.5px] text-muted mt-0.5">{n.role}</p>
+                    {n.bio && (
+                      <p className="text-[13.5px] text-charcoal/80 mt-3 leading-relaxed">{n.bio}</p>
+                    )}
+                  </div>
                 </div>
-                <div className="mt-4">
-                  <p className="font-semibold text-ink text-[16px] leading-tight">{n.name}</p>
-                  <p className="text-[12.5px] text-muted mt-0.5">{n.role}</p>
-                  {n.bio && (
-                    <p className="text-[13.5px] text-charcoal/80 mt-3 leading-relaxed">{n.bio}</p>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {practiceTeam.length > 0 && (
+        <section className={`py-12 md:py-16 px-5 md:px-6 ${nurses.length > 0 ? "" : "bg-cream-100/60"}`}>
+          <div className="max-w-7xl mx-auto">
+            <h2 className="font-display italic text-3xl text-charcoal mb-6">Practice Team</h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+              {practiceTeam.map((n) => {
+                const color = ROLE_COLORS[n.role] ?? "#049EE0";
+                return (
+                  <div key={n._id} className="bg-white rounded-3xl border border-line p-6 hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow">
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-full grid place-items-center shrink-0" style={{ background: `${color}1A`, color }}>
+                        <span className="font-display italic font-bold text-lg">{n.name[0]}</span>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-ink text-[15px] leading-tight">{n.name}</p>
+                        <p className="text-[12px] text-muted mt-0.5">{n.role}</p>
+                      </div>
+                    </div>
+                    {n.bio && (
+                      <p className="text-[13.5px] text-charcoal/80 mt-4 leading-relaxed">{n.bio}</p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {allLanguages.length > 0 && (
         <section className="py-12 px-5 md:px-6">
