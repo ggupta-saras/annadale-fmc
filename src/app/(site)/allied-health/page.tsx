@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { Phone, Calendar, HeartHandshake, Stethoscope, ArrowRight, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
-import { Pill } from "@/components/ui";
+import { Pill, PersonPortrait } from "@/components/ui";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { slugify } from "@/lib/slugify";
@@ -36,15 +37,34 @@ interface AlliedHealthService {
   externalBookingUrl: string | null;
 }
 
+interface AlliedHealthPractitioner {
+  _id: string;
+  name: string;
+  roleOrService: string | null;
+  bio: string | null;
+  bookingUrl: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  photo: any | null;
+}
+
 export default async function AlliedHealthPage() {
-  const services: AlliedHealthService[] = await client.fetch(
-    `*[_type == "service" && category == "Allied Health"] | order(order asc) {
-      _id, title, icon, image, externalBookingUrl,
-      "description": pt::text(description)
-    }`,
-    {},
-    { next: { tags: ["services"], revalidate: 60 } }
-  );
+  const [services, practitioners]: [AlliedHealthService[], AlliedHealthPractitioner[]] = await Promise.all([
+    client.fetch(
+      `*[_type == "service" && category == "Allied Health"] | order(order asc) {
+        _id, title, icon, image, externalBookingUrl,
+        "description": pt::text(description)
+      }`,
+      {},
+      { next: { tags: ["services"], revalidate: 60 } }
+    ),
+    client.fetch(
+      `*[_type == "alliedHealthPractitioner"] | order(order asc) {
+        _id, name, roleOrService, bio, bookingUrl, photo
+      }`,
+      {},
+      { next: { tags: ["alliedHealthPractitioners"], revalidate: 60 } }
+    ),
+  ]);
 
   return (
     <>
@@ -124,19 +144,86 @@ export default async function AlliedHealthPage() {
         </section>
       )}
 
+      {practitioners.length > 0 && (
+        <section className="py-14 md:py-20 bg-cream-100/60">
+          <div className="max-w-7xl mx-auto px-5 md:px-6">
+            <Pill tone="purple" icon={<HeartHandshake size={11} />}>Our allied health team</Pill>
+            <h2 className="font-display text-[34px] md:text-[44px] leading-[1.05] tracking-tight text-ink mt-4 mb-8 max-w-2xl">
+              Practitioners you can <em className="italic">book directly.</em>
+            </h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+              {practitioners.map((p) => {
+                const bookingHref = p.bookingUrl || siteConfig.phoneHref;
+                const isExternal = !!p.bookingUrl;
+                return (
+                  <div key={p._id} className="bg-white rounded-3xl border border-line p-4 hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow">
+                    <div className="w-[85%] mx-auto">
+                      <PersonPortrait name={p.name} color="#862A90" badge={p.roleOrService || "Allied health"} photo={p.photo} />
+                    </div>
+                    <div className="mt-4">
+                      <p className="font-semibold text-ink text-[16px] leading-tight">{p.name}</p>
+                      {p.roleOrService && (
+                        <p className="text-[12.5px] text-muted mt-0.5">{p.roleOrService}</p>
+                      )}
+                      {p.bio && (
+                        <p className="text-[13.5px] text-charcoal/80 mt-3 leading-relaxed">{p.bio}</p>
+                      )}
+                      <a
+                        href={bookingHref}
+                        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        className="mt-4 inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-ink hover:text-brand-green-deep"
+                      >
+                        {isExternal ? "Book online" : "Book through reception"}
+                        {isExternal ? <ArrowUpRight size={13} /> : <ArrowRight size={13} />}
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="py-14 md:py-20 px-5 md:px-6">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-5">
+          <div className="bg-white rounded-3xl border border-line p-7 md:p-8">
+            <h3 className="font-display italic text-[24px] text-ink">How to book</h3>
+            <p className="text-charcoal/75 text-[14.5px] mt-3 leading-relaxed">
+              Most allied health services are booked through reception — call, or ask at your next visit.
+              Infusion Avenue and Kosmetika manage their own bookings directly.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-2.5 mt-5">
+              <a href={siteConfig.phoneHref} className="inline-flex items-center justify-center gap-2 bg-brand-green-deep hover:bg-brand-green-darker text-white font-semibold px-5 py-3 rounded-full text-[13.5px]">
+                <Phone size={14} /> Call {siteConfig.phone}
+              </a>
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 border border-ink/15 hover:bg-ink/5 text-ink font-semibold px-5 py-3 rounded-full text-[13.5px]">
+                Contact reception
+              </Link>
+            </div>
+          </div>
+          <div className="bg-white rounded-3xl border border-line p-7 md:p-8">
+            <h3 className="font-display italic text-[24px] text-ink">How to access these services</h3>
+            <ul className="mt-3 space-y-3">
+              <li className="flex items-start gap-2.5 text-[14.5px] text-charcoal/80 leading-relaxed">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-purple-deep shrink-0" />
+                <span><strong className="text-ink">Chronic Disease Management Plan</strong> — up to 5 Medicare-rebated allied health visits a year.</span>
+              </li>
+              <li className="flex items-start gap-2.5 text-[14.5px] text-charcoal/80 leading-relaxed">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-purple-deep shrink-0" />
+                <span><strong className="text-ink">Mental Health Care Plan</strong> — Medicare-rebated psychology sessions.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 md:py-16 px-5 md:px-6">
         <div className="max-w-5xl mx-auto bg-ink text-cream-100 rounded-[36px] p-8 md:p-12 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center">
           <div>
-            <Pill tone="green" className="!bg-white/10 !text-cream-100">Care plans &amp; Medicare</Pill>
-            <h2 className="font-display text-[32px] md:text-[42px] leading-[1.08] text-white mt-4">
-              Many allied health visits attract a <em className="italic text-brand-green/90">Medicare rebate.</em>
+            <h2 className="font-display text-[32px] md:text-[42px] leading-[1.08] text-white">
+              Care that&apos;s <em className="italic text-brand-green/90">simple to start.</em>
             </h2>
-            <p className="text-cream-100/75 mt-4 text-[14.5px] leading-relaxed">
-              A GP-prepared Chronic Disease Management Plan can provide rebated visits to services like
-              physiotherapy, dietetics and podiatry, and a Mental Health Care Plan can provide rebated
-              psychology sessions. Eligibility and the number of rebated visits depend on your individual
-              circumstances — book a GP appointment to find out what you&apos;re eligible for.
-            </p>
           </div>
           <div className="flex flex-col gap-3">
             <a href={siteConfig.phoneHref} className="inline-flex items-center justify-center gap-2 bg-brand-green-deep hover:bg-brand-green-darker text-white font-semibold px-5 py-3.5 rounded-full">
