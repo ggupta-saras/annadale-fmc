@@ -15,7 +15,9 @@ export function PersonPortrait({
 }: {
   name: string;
   color: string;
-  badge: string;
+  /** Omit to hide the overlay chip — e.g. where the role is already shown as text
+   *  beside the portrait, or the portrait is too narrow to fit the label. */
+  badge?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   photo?: any;
 }) {
@@ -35,10 +37,12 @@ export function PersonPortrait({
           <span className="font-display italic font-extrabold text-[64px]" style={{ color, opacity: 0.55 }}>{initial}</span>
         </div>
       )}
-      <span className="absolute bottom-2.5 left-2.5 inline-flex items-center gap-1.5 bg-white/95 rounded-full px-2.5 py-1 text-[11px] font-semibold" style={{ color }}>
-        <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
-        {badge}
-      </span>
+      {badge && (
+        <span className="absolute bottom-2.5 left-2.5 inline-flex items-center gap-1.5 bg-white/95 rounded-full px-2.5 py-1 text-[11px] font-semibold" style={{ color }}>
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
+          {badge}
+        </span>
+      )}
     </div>
   );
 }

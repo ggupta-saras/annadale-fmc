@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Calendar, HeartHandshake, Stethoscope, ArrowRight, ArrowUpRight } from "lucide-react";
+import { Phone, HeartHandshake, Stethoscope, ArrowRight, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 import { Pill, PersonPortrait } from "@/components/ui";
 import { client } from "@/sanity/lib/client";
@@ -72,46 +72,67 @@ export default async function AlliedHealthPage() {
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute -top-20 right-10 w-[420px] h-[420px] rounded-full bg-purple-tint/70 blur-3xl" />
         </div>
-        <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-16 md:pt-24 pb-12">
-          <Pill tone="purple" icon={<HeartHandshake size={11} />}>Allied health</Pill>
-          <h1 className="font-display text-[48px] md:text-[72px] leading-[1.04] tracking-tight text-ink mt-5 max-w-4xl">
-            Care that goes
-            <br /><em className="italic">beyond the GP room.</em>
-          </h1>
-          <p className="text-charcoal/75 text-[17px] mt-6 max-w-2xl leading-relaxed">
-            Allied health covers the physios, dietitians, psychologists and other practitioners who work
-            alongside our GPs on the things medicine alone doesn&apos;t fix — movement, nutrition, mental health
-            and more. These services are available right here at Annadale FMC. Ask your doctor for a referral,
-            or get in touch with reception to find out what&apos;s currently available.
-          </p>
+        <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-12 md:pt-16 pb-8 grid lg:grid-cols-[1.25fr_1fr] gap-8 lg:gap-12 items-center">
+          <div>
+            <Pill tone="purple" icon={<HeartHandshake size={11} />}>Allied health</Pill>
+            <h1 className="font-display text-[44px] md:text-[60px] leading-[1.05] tracking-tight text-ink mt-4">
+              Care that goes
+              <br /><em className="italic">beyond the GP room.</em>
+            </h1>
+            <p className="text-charcoal/75 text-[16.5px] mt-5 leading-relaxed">
+              Allied health covers the physios, dietitians, psychologists and other practitioners who work
+              alongside our GPs on the things medicine alone doesn&apos;t fix — movement, nutrition, mental health
+              and more. These services are available right here at Annadale FMC.
+            </p>
+          </div>
+
+          {/* "How to book" lives here rather than further down the page — it fills
+              the empty right half of the hero and puts booking details above the fold. */}
+          <div className="bg-white rounded-3xl border border-line p-6 md:p-7 shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.10)]">
+            <h2 className="font-display italic text-[22px] text-ink">How to book</h2>
+            <p className="text-charcoal/75 text-[14px] mt-2.5 leading-relaxed">
+              Most allied health services are booked through reception — call, or ask at your next visit.
+              Infusion Avenue and Kosmetika manage their own bookings directly.
+            </p>
+            <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-2.5 mt-4">
+              <a href={siteConfig.phoneHref} className="inline-flex items-center justify-center gap-2 bg-brand-green-deep hover:bg-brand-green-darker text-white font-semibold px-4 py-2.5 rounded-full text-[13px] whitespace-nowrap">
+                <Phone size={14} /> Call {siteConfig.phone}
+              </a>
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 border border-ink/15 hover:bg-ink/5 text-ink font-semibold px-4 py-2.5 rounded-full text-[13px] whitespace-nowrap">
+                Contact reception
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
       {services.length > 0 ? (
-        <section className="py-14 md:py-20">
+        <section className="pt-8 md:pt-10 pb-14 md:pb-20">
           <div className="max-w-7xl mx-auto px-5 md:px-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
             {services.map(({ _id, title, description, icon, image, externalBookingUrl }) => {
               const Icon: LucideIcon = (icon && ICON_MAP[icon]) ? ICON_MAP[icon] : HeartHandshake;
               const bookingHref = externalBookingUrl || siteConfig.phoneHref;
               const isExternal = !!externalBookingUrl;
+              // Icon/logo is smaller on mobile — at a ~160px card width a 56px
+              // tile is a third of the card, which reads as padding, not content.
               return (
-                <div key={_id} id={slugify(title)} className="scroll-mt-32 bg-white rounded-3xl p-5 border border-line hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow group">
+                <div key={_id} id={slugify(title)} className="scroll-mt-32 bg-white rounded-3xl p-4 sm:p-5 border border-line hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow group">
                   {image ? (
-                    <div className="w-14 h-14 rounded-2xl overflow-hidden relative bg-purple-tint">
+                    <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-2xl overflow-hidden relative bg-purple-tint">
                       <Image
                         src={urlFor(image).width(112).height(112).fit("crop").url()}
                         alt={title}
                         fill
-                        sizes="56px"
+                        sizes="(min-width: 640px) 56px, 40px"
                         className="object-cover"
                       />
                     </div>
                   ) : (
-                    <div className="w-14 h-14 rounded-2xl grid place-items-center bg-purple-tint text-brand-purple-deep">
+                    <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-2xl grid place-items-center bg-purple-tint text-brand-purple-deep">
                       <Icon size={22} />
                     </div>
                   )}
-                  <h3 className="font-display text-[19px] text-ink tracking-tight mt-4">{title}</h3>
+                  <h3 className="font-display text-[17px] sm:text-[19px] text-ink tracking-tight mt-3 sm:mt-4">{title}</h3>
                   {description && (
                     <p className="text-[13.5px] text-charcoal/75 mt-2 leading-relaxed">{description}</p>
                   )}
@@ -151,16 +172,21 @@ export default async function AlliedHealthPage() {
             <h2 className="font-display text-[34px] md:text-[44px] leading-[1.05] tracking-tight text-ink mt-4 mb-8 max-w-2xl">
               Practitioners you can <em className="italic">book directly.</em>
             </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+            {/* Mobile: horizontal cards (photo left, text right) — a 2-up grid here
+                squeezes the bio into a ~126px column for no height saving.
+                From sm up: the standard vertical portrait card, 4-up on desktop. */}
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
               {practitioners.map((p) => {
                 const bookingHref = p.bookingUrl || siteConfig.phoneHref;
                 const isExternal = !!p.bookingUrl;
                 return (
-                  <div key={p._id} className="bg-white rounded-3xl border border-line p-4 hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow">
-                    <div className="w-[85%] mx-auto">
-                      <PersonPortrait name={p.name} color="#862A90" badge={p.roleOrService || "Allied health"} photo={p.photo} />
+                  <div key={p._id} className="bg-white rounded-3xl border border-line p-4 flex gap-4 items-start sm:block hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow">
+                    <div className="w-24 shrink-0 sm:w-[85%] sm:mx-auto">
+                      {/* No badge: the role is already shown as text beside/below the
+                          portrait, and the label overflows a card this narrow. */}
+                      <PersonPortrait name={p.name} color="#862A90" photo={p.photo} />
                     </div>
-                    <div className="mt-4">
+                    <div className="flex-1 min-w-0 sm:mt-4">
                       <p className="font-semibold text-ink text-[16px] leading-tight">{p.name}</p>
                       {p.roleOrService && (
                         <p className="text-[12.5px] text-muted mt-0.5">{p.roleOrService}</p>
@@ -185,53 +211,26 @@ export default async function AlliedHealthPage() {
         </section>
       )}
 
-      <section className="py-14 md:py-20 px-5 md:px-6">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-5">
-          <div className="bg-white rounded-3xl border border-line p-7 md:p-8">
-            <h3 className="font-display italic text-[24px] text-ink">How to book</h3>
-            <p className="text-charcoal/75 text-[14.5px] mt-3 leading-relaxed">
-              Most allied health services are booked through reception — call, or ask at your next visit.
-              Infusion Avenue and Kosmetika manage their own bookings directly.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-2.5 mt-5">
-              <a href={siteConfig.phoneHref} className="inline-flex items-center justify-center gap-2 bg-brand-green-deep hover:bg-brand-green-darker text-white font-semibold px-5 py-3 rounded-full text-[13.5px]">
-                <Phone size={14} /> Call {siteConfig.phone}
-              </a>
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 border border-ink/15 hover:bg-ink/5 text-ink font-semibold px-5 py-3 rounded-full text-[13.5px]">
-                Contact reception
-              </Link>
-            </div>
-          </div>
-          <div className="bg-white rounded-3xl border border-line p-7 md:p-8">
-            <h3 className="font-display italic text-[24px] text-ink">How to access these services</h3>
-            <ul className="mt-3 space-y-3">
-              <li className="flex items-start gap-2.5 text-[14.5px] text-charcoal/80 leading-relaxed">
+      {/* "How to book" now lives in the hero; this is the Medicare half only,
+          laid out horizontally so it costs one short band rather than a tall card.
+          No closing CTA section here — the site footer already carries one
+          ("Care that's simple to start."), and having both stacked was a duplicate. */}
+      <section className="pb-14 md:pb-20 px-5 md:px-6">
+        <div className="max-w-7xl mx-auto bg-white rounded-3xl border border-line p-6 md:p-8">
+          <div className="grid md:grid-cols-[auto_1fr] gap-4 md:gap-10 md:items-center">
+            <h2 className="font-display italic text-[22px] md:text-[26px] text-ink whitespace-nowrap">
+              How to access these services
+            </h2>
+            <ul className="grid sm:grid-cols-2 gap-3 md:gap-6">
+              <li className="flex items-start gap-2.5 text-[14px] text-charcoal/80 leading-relaxed">
                 <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-purple-deep shrink-0" />
                 <span><strong className="text-ink">Chronic Disease Management Plan</strong> — up to 5 Medicare-rebated allied health visits a year.</span>
               </li>
-              <li className="flex items-start gap-2.5 text-[14.5px] text-charcoal/80 leading-relaxed">
+              <li className="flex items-start gap-2.5 text-[14px] text-charcoal/80 leading-relaxed">
                 <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-purple-deep shrink-0" />
                 <span><strong className="text-ink">Mental Health Care Plan</strong> — Medicare-rebated psychology sessions.</span>
               </li>
             </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-12 md:py-16 px-5 md:px-6">
-        <div className="max-w-5xl mx-auto bg-ink text-cream-100 rounded-[36px] p-8 md:p-12 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center">
-          <div>
-            <h2 className="font-display text-[32px] md:text-[42px] leading-[1.08] text-white">
-              Care that&apos;s <em className="italic text-brand-green/90">simple to start.</em>
-            </h2>
-          </div>
-          <div className="flex flex-col gap-3">
-            <a href={siteConfig.phoneHref} className="inline-flex items-center justify-center gap-2 bg-brand-green-deep hover:bg-brand-green-darker text-white font-semibold px-5 py-3.5 rounded-full">
-              <Phone size={16} /> Call {siteConfig.phone}
-            </a>
-            <a href={siteConfig.booking.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 border border-white/25 hover:bg-white/10 text-white font-semibold px-5 py-3.5 rounded-full">
-              <Calendar size={16} /> Book a GP appointment
-            </a>
           </div>
         </div>
       </section>
