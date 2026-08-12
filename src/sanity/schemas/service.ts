@@ -12,13 +12,22 @@ export const service = defineType({
       type: "array",
       of: [{ type: "block" }],
     }),
-    defineField({ name: "icon", title: "Icon Name (lucide-react)", type: "string" }),
+    defineField({
+      name: "icon",
+      title: "Icon Name",
+      type: "string",
+      description:
+        "Developer field — the name of a built-in icon (e.g. \"Heart\", \"Syringe\"). Used on the main Services page only; free text here will not render. Leave as-is unless you know the icon name.",
+      // Allied Health cards show partner logos, not icons — hiding this avoids
+      // the field being filled with text that silently does nothing.
+      hidden: ({ parent }) => (parent as { category?: string } | undefined)?.category === "Allied Health",
+    }),
     defineField({
       name: "image",
-      title: "Square Logo / Photo",
+      title: "Logo",
       type: "image",
       options: { hotspot: true },
-      description: "Small square logo or photo shown on the card. Falls back to the icon above when left blank.",
+      description: "The provider's logo, shown at the top of the card. Leave blank and the card simply shows no logo.",
     }),
     defineField({
       name: "externalBookingUrl",

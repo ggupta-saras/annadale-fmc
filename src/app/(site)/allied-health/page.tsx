@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, HeartHandshake, Stethoscope, ArrowRight, ArrowUpRight } from "lucide-react";
+import { Phone, HeartHandshake, ArrowRight, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 import { Pill, PersonPortrait } from "@/components/ui";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { slugify } from "@/lib/slugify";
-import {
-  Heart, Baby, Brain, Activity, Syringe, Users, User, Shield,
-  ShieldCheck, Pill as PillIcon, Sun, ScanLine, Video,
-  type LucideIcon,
-} from "lucide-react";
 
 // Fallback refresh (60s). Publishing a service in Sanity also triggers an
 // instant refresh via the /api/revalidate webhook + the "services" cache tag.
@@ -22,15 +17,12 @@ export const metadata: Metadata = {
   description: "Allied health services at Annadale Family Medical Centre in Mickleham.",
 };
 
-const ICON_MAP: Record<string, LucideIcon> = {
-  Heart, Baby, Brain, Activity, Stethoscope, Syringe, Users, User, Shield,
-  ShieldCheck, Pill: PillIcon, Sun, ScanLine, Video, HeartHandshake,
-};
+// No lucide ICON_MAP here (unlike /services, whose GP categories use meaningful
+// icons): allied health cards show partner logos or nothing at all.
 
 interface AlliedHealthService {
   _id: string;
   title: string;
-  icon: string | null;
   description: string | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image: any | null;
@@ -51,7 +43,7 @@ export default async function AlliedHealthPage() {
   const [services, practitioners]: [AlliedHealthService[], AlliedHealthPractitioner[]] = await Promise.all([
     client.fetch(
       `*[_type == "service" && category == "Allied Health"] | order(order asc) {
-        _id, title, icon, image, externalBookingUrl,
+        _id, title, image, externalBookingUrl,
         "description": pt::text(description)
       }`,
       {},
@@ -109,30 +101,27 @@ export default async function AlliedHealthPage() {
       {services.length > 0 ? (
         <section className="pt-8 md:pt-10 pb-14 md:pb-20">
           <div className="max-w-7xl mx-auto px-5 md:px-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
-            {services.map(({ _id, title, description, icon, image, externalBookingUrl }) => {
-              const Icon: LucideIcon = (icon && ICON_MAP[icon]) ? ICON_MAP[icon] : HeartHandshake;
+            {services.map(({ _id, title, description, image, externalBookingUrl }) => {
               const bookingHref = externalBookingUrl || siteConfig.phoneHref;
               const isExternal = !!externalBookingUrl;
-              // Icon/logo is smaller on mobile — at a ~160px card width a 56px
-              // tile is a third of the card, which reads as padding, not content.
               return (
                 <div key={_id} id={slugify(title)} className="scroll-mt-32 bg-white rounded-3xl p-4 sm:p-5 border border-line hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow group">
-                  {image ? (
-                    <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-2xl overflow-hidden relative bg-purple-tint">
+                  {/* Only rendered once a real partner logo is uploaded. There is no
+                      generic-icon fallback here: with none uploaded, every card showed
+                      the same placeholder, which read as noise rather than branding.
+                      object-contain (not cover) so logos aren't cropped. */}
+                  {image && (
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl overflow-hidden relative bg-white border border-line mb-3 sm:mb-4 p-1.5">
                       <Image
-                        src={urlFor(image).width(112).height(112).fit("crop").url()}
-                        alt={title}
+                        src={urlFor(image).width(160).height(160).fit("max").url()}
+                        alt={`${title} logo`}
                         fill
-                        sizes="(min-width: 640px) 56px, 40px"
-                        className="object-cover"
+                        sizes="(min-width: 640px) 64px, 48px"
+                        className="object-contain p-1"
                       />
                     </div>
-                  ) : (
-                    <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-2xl grid place-items-center bg-purple-tint text-brand-purple-deep">
-                      <Icon size={22} />
-                    </div>
                   )}
-                  <h3 className="font-display text-[17px] sm:text-[19px] text-ink tracking-tight mt-3 sm:mt-4">{title}</h3>
+                  <h3 className="font-display text-[17px] sm:text-[19px] text-ink tracking-tight">{title}</h3>
                   {description && (
                     <p className="text-[13.5px] text-charcoal/75 mt-2 leading-relaxed">{description}</p>
                   )}
