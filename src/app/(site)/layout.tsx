@@ -1,31 +1,35 @@
 import type { Metadata } from "next";
-import { Manrope, Playfair_Display, Lobster } from "next/font/google";
+import localFont from "next/font/local";
 import "../globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { client } from "@/sanity/lib/client";
 import { slugify } from "@/lib/slugify";
 
-const manrope = Manrope({
+// Fonts are self-hosted (files in ./fonts) rather than fetched from Google at
+// build time. next/font/google downloads the files during every build, so a
+// transient failure reaching fonts.gstatic.com fails the whole deploy — that
+// happened twice, silently leaving production on an older build. These are the
+// same Google-hosted latin-subset woff2 files, just committed to the repo.
+const manrope = localFont({
   variable: "--font-manrope",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
+  src: [{ path: "../fonts/Manrope-Variable.woff2", weight: "400 800", style: "normal" }],
 });
 
-const playfair = Playfair_Display({
+const playfair = localFont({
   variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["500", "700", "800", "900"],
-  style: ["normal", "italic"],
   display: "swap",
+  src: [
+    { path: "../fonts/PlayfairDisplay-Variable.woff2", weight: "500 900", style: "normal" },
+    { path: "../fonts/PlayfairDisplay-Variable-Italic.woff2", weight: "500 900", style: "italic" },
+  ],
 });
 
-const lobster = Lobster({
+const lobster = localFont({
   variable: "--font-lobster",
-  subsets: ["latin"],
-  weight: "400",
   display: "swap",
+  src: [{ path: "../fonts/Lobster-Regular.woff2", weight: "400", style: "normal" }],
 });
 
 export const metadata: Metadata = {
