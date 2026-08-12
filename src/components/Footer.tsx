@@ -87,9 +87,16 @@ export function Footer() {
 
         <div className="md:col-span-2">
           <h4 className="font-display italic text-xl text-white mb-4">Hours</h4>
-          <ul className="space-y-1.5 text-sm text-cream-100/70">
+          {/* Day above time, not side-by-side: this column is 2 of 12 (~170px),
+              which forced both "Monday – Friday" and "9:00am – 5:30pm" to wrap
+              mid-value and left the times raggedly aligned. Matches the
+              label-over-value pattern of the After hours column beside it. */}
+          <ul className="space-y-2.5 text-sm text-cream-100/70">
             {siteConfig.hours.map(({ day, time }) => (
-              <li key={day} className="flex justify-between gap-3"><span>{day}</span><span className="text-cream-100/90">{time}</span></li>
+              <li key={day}>
+                <span className="block whitespace-nowrap">{day}</span>
+                <span className="block whitespace-nowrap text-cream-100/90">{time}</span>
+              </li>
             ))}
           </ul>
         </div>
