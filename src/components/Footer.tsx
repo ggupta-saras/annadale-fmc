@@ -42,7 +42,10 @@ export function Footer() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-brand-green-deep hover:bg-brand-green text-white font-semibold px-5 py-3 rounded-full"
             >
-              <Calendar size={16} /> Book Online
+              {/* "Book a GP appointment", not "Book Online": this links to
+                  HealthEngine, which books GP consults only. On the Allied Health
+                  page it sat under copy saying those services go via reception. */}
+              <Calendar size={16} /> Book a GP appointment
             </a>
             <a href={siteConfig.phoneHref} className="inline-flex items-center gap-2 border border-white/20 hover:bg-white/10 text-white font-semibold px-5 py-3 rounded-full">
               <Phone size={16} /> {siteConfig.phone}

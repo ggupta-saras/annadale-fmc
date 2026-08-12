@@ -228,20 +228,35 @@ export default async function AlliedHealthPage() {
           ("Care that's simple to start."), and having both stacked was a duplicate. */}
       <section className="pb-14 md:pb-20 px-5 md:px-6">
         <div className="max-w-7xl mx-auto bg-white rounded-3xl border border-line p-6 md:p-8">
-          <div className="grid md:grid-cols-[auto_1fr] gap-4 md:gap-10 md:items-center">
+          <div className="grid md:grid-cols-[auto_1fr] gap-4 md:gap-10 md:items-start">
             <h2 className="font-display italic text-[22px] md:text-[26px] text-ink whitespace-nowrap">
               How to access these services
             </h2>
-            <ul className="grid sm:grid-cols-2 gap-3 md:gap-6">
-              <li className="flex items-start gap-2.5 text-[14px] text-charcoal/80 leading-relaxed">
-                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-purple-deep shrink-0" />
-                <span><strong className="text-ink">Chronic Disease Management Plan</strong> — up to 5 Medicare-rebated allied health visits a year.</span>
-              </li>
-              <li className="flex items-start gap-2.5 text-[14px] text-charcoal/80 leading-relaxed">
-                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-purple-deep shrink-0" />
-                <span><strong className="text-ink">Mental Health Care Plan</strong> — Medicare-rebated psychology sessions.</span>
-              </li>
-            </ul>
+            <div>
+              <ul className="grid sm:grid-cols-2 gap-3 md:gap-6">
+                <li className="flex items-start gap-2.5 text-[14px] text-charcoal/80 leading-relaxed">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-purple-deep shrink-0" />
+                  <span><strong className="text-ink">Chronic Disease Management Plan</strong> — up to 5 Medicare-rebated allied health visits a year.</span>
+                </li>
+                <li className="flex items-start gap-2.5 text-[14px] text-charcoal/80 leading-relaxed">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-purple-deep shrink-0" />
+                  <span><strong className="text-ink">Mental Health Care Plan</strong> — Medicare-rebated psychology sessions.</span>
+                </li>
+              </ul>
+              {/* The facts alone left the patient without a next step: both plans
+                  can only be set up by a GP, so say so and give them the link. */}
+              <p className="text-[14px] text-charcoal/80 leading-relaxed mt-4 pt-4 border-t border-line">
+                Both plans are set up by your GP — book an appointment to check what you&apos;re eligible for.{" "}
+                <a
+                  href={siteConfig.booking.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-brand-green-deep hover:underline whitespace-nowrap"
+                >
+                  Book a GP appointment <ArrowUpRight size={13} className="inline-block align-[-2px]" />
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </section>

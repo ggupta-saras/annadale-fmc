@@ -15,7 +15,7 @@
   /* ── Text colours ── */
   --color-ink:      #1B1A17;   /* primary text */
   --color-charcoal: #58585A;   /* exact logo text colour */
-  --color-muted:    #7A7873;
+  --color-muted:    #6F6D68;   /* darkened from #7A7873: that was 4.16:1 on cream, an AA fail */
   --color-line:     #E8E1D3;
 
   /* ── Brand — exact values from AFMC.svg ── */
