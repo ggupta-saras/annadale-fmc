@@ -40,7 +40,12 @@ interface AlliedHealthPractitioner {
 }
 
 export default async function AlliedHealthPage() {
-  const [services, practitioners]: [AlliedHealthService[], AlliedHealthPractitioner[]] = await Promise.all([
+  const [services, practitioners, page]: [
+    AlliedHealthService[],
+    AlliedHealthPractitioner[],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    { heroImage?: any } | null,
+  ] = await Promise.all([
     client.fetch(
       `*[_type == "service" && category == "Allied Health"] | order(order asc) {
         _id, title, image, externalBookingUrl,
@@ -56,7 +61,19 @@ export default async function AlliedHealthPage() {
       {},
       { next: { tags: ["alliedHealthPractitioners"], revalidate: 60 } }
     ),
+    client.fetch(
+      `*[_type == "alliedHealthPage"][0]{ heroImage }`,
+      {},
+      { next: { tags: ["alliedHealthPage"], revalidate: 60 } }
+    ),
   ]);
+
+  // The hero's right column holds a photo once the clinic uploads one. Until
+  // then it keeps the "How to book" card, so the column never sits empty —
+  // that emptiness was the original complaint. Whichever one the hero shows,
+  // "How to book" appears exactly once on the page: it moves down to the
+  // bottom band when the photo takes its place.
+  const heroImage = page?.heroImage ?? null;
 
   // These claims are derived, never hardcoded: the page previously said
   // "book directly" and named partner-run services while every card still
@@ -70,6 +87,27 @@ export default async function AlliedHealthPage() {
   const gapsAt = (cols: number) => (cols - (practitioners.length % cols)) % cols;
   const practitionerColsClass =
     gapsAt(3) <= gapsAt(4) ? "lg:grid-cols-3" : "lg:grid-cols-4";
+
+  const howToBookCard = (
+    <div className="bg-white rounded-3xl border border-line p-6 md:p-7 shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.10)]">
+      <h2 className="font-display italic text-[22px] text-ink">How to book</h2>
+      <p className="text-charcoal/75 text-[14px] mt-2.5 leading-relaxed">
+        {partnerRunServices.length > 0 ? "Most allied" : "Allied"} health services are booked through
+        reception — call, or ask at your next visit.
+        {partnerRunServices.length > 0 && (
+          <> {partnerRunServices.join(" and ")} manage their own bookings directly.</>
+        )}
+      </p>
+      <div className="flex flex-col sm:flex-row gap-2.5 mt-4">
+        <a href={siteConfig.phoneHref} className="inline-flex items-center justify-center gap-2 bg-brand-green-deep hover:bg-brand-green-darker text-white font-semibold px-4 py-2.5 rounded-full text-[13px] whitespace-nowrap">
+          <Phone size={14} /> Call {siteConfig.phone}
+        </a>
+        <Link href="/contact" className="inline-flex items-center justify-center gap-2 border border-ink/15 hover:bg-ink/5 text-ink font-semibold px-4 py-2.5 rounded-full text-[13px] whitespace-nowrap">
+          Contact reception
+        </Link>
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -91,26 +129,20 @@ export default async function AlliedHealthPage() {
             </p>
           </div>
 
-          {/* "How to book" lives here rather than further down the page — it fills
-              the empty right half of the hero and puts booking details above the fold. */}
-          <div className="bg-white rounded-3xl border border-line p-6 md:p-7 shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.10)]">
-            <h2 className="font-display italic text-[22px] text-ink">How to book</h2>
-            <p className="text-charcoal/75 text-[14px] mt-2.5 leading-relaxed">
-              {partnerRunServices.length > 0 ? "Most allied" : "Allied"} health services are booked through
-              reception — call, or ask at your next visit.
-              {partnerRunServices.length > 0 && (
-                <> {partnerRunServices.join(" and ")} manage their own bookings directly.</>
-              )}
-            </p>
-            <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-2.5 mt-4">
-              <a href={siteConfig.phoneHref} className="inline-flex items-center justify-center gap-2 bg-brand-green-deep hover:bg-brand-green-darker text-white font-semibold px-4 py-2.5 rounded-full text-[13px] whitespace-nowrap">
-                <Phone size={14} /> Call {siteConfig.phone}
-              </a>
-              <Link href="/contact" className="inline-flex items-center justify-center gap-2 border border-ink/15 hover:bg-ink/5 text-ink font-semibold px-4 py-2.5 rounded-full text-[13px] whitespace-nowrap">
-                Contact reception
-              </Link>
+          {heroImage ? (
+            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-line shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.10)]">
+              <Image
+                src={urlFor(heroImage).width(1200).height(900).fit("crop").url()}
+                alt="Allied health care at Annadale Family Medical Centre"
+                fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover"
+                priority
+              />
             </div>
-          </div>
+          ) : (
+            howToBookCard
+          )}
         </div>
       </section>
 
@@ -222,10 +254,16 @@ export default async function AlliedHealthPage() {
         </section>
       )}
 
-      {/* "How to book" now lives in the hero; this is the Medicare half only,
-          laid out horizontally so it costs one short band rather than a tall card.
-          No closing CTA section here — the site footer already carries one
-          ("Care that's simple to start."), and having both stacked was a duplicate. */}
+      {/* When a header photo takes the hero's right column, "How to book" moves
+          down here so the booking details are never lost — and it renders in
+          exactly one place either way. No closing CTA section: the site footer
+          already carries one ("Care that's simple to start."). */}
+      {heroImage && (
+        <section className="pb-8 px-5 md:px-6">
+          <div className="max-w-7xl mx-auto">{howToBookCard}</div>
+        </section>
+      )}
+
       <section className="pb-14 md:pb-20 px-5 md:px-6">
         <div className="max-w-7xl mx-auto bg-white rounded-3xl border border-line p-6 md:p-8">
           <div className="grid md:grid-cols-[auto_1fr] gap-4 md:gap-10 md:items-start">

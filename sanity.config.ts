@@ -77,6 +77,13 @@ export default defineConfig({
                     S.initialValueTemplateItem("service-allied-health"),
                   ])
               ),
+            S.listItem()
+              .title("Allied Health Page")
+              .child(
+                S.document()
+                  .schemaType("alliedHealthPage")
+                  .documentId("alliedHealthPage")
+              ),
             S.documentTypeListItem("alliedHealthPractitioner").title("Allied Health Practitioners"),
             S.divider(),
             S.documentTypeListItem("announcement").title("Announcements"),

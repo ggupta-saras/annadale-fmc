@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 // (Manage → API → Webhooks) pointing to:
 //   https://www.annadalefmc.com.au/api/revalidate?secret=YOUR_SECRET
 // Trigger on: Create, Update, Delete
-// Filter:     _type in ["homepage", "doctor", "staffMember", "service", "alliedHealthPractitioner"]
+// Filter:     _type in ["homepage", "doctor", "staffMember", "service", "alliedHealthPage", "alliedHealthPractitioner"]
 // Projection: {"_type": _type}
 // and set SANITY_REVALIDATE_SECRET in Vercel to the same value.
 // Publishing a document then refreshes the site immediately.
@@ -15,6 +15,7 @@ const TAG_BY_TYPE: Record<string, string> = {
   doctor: "doctors",
   staffMember: "staff",
   service: "services",
+  alliedHealthPage: "alliedHealthPage",
   alliedHealthPractitioner: "alliedHealthPractitioners",
 };
 

@@ -28,7 +28,8 @@ export function Navbar({ alliedHealthItems = [] }: NavbarProps) {
     { label: "Allied Health",    href: "/allied-health", children: alliedHealthItems.length > 0 ? alliedHealthItems : undefined },
     { label: "Beveridge Clinic", href: "/beveridge-clinic" },
     { label: "Our Team",         href: "/our-team" },
-    { label: "About",            href: "/about" },
+    // "About" removed from the main nav at the client's request — still linked
+    // from the footer's Practice list, so the page remains reachable.
     { label: "Contact",          href: "/contact" },
   ];
 
@@ -160,10 +161,9 @@ export function Navbar({ alliedHealthItems = [] }: NavbarProps) {
             })}
           </nav>
 
+          {/* Phone removed from beside the nav at the client's request. It is
+              still in the dark pre-header strip above, and in the footer. */}
           <div className="hidden md:flex items-center gap-2 shrink-0">
-            <a href={siteConfig.phoneHref} className="hidden xl:inline-flex items-center gap-1.5 px-3 py-2 text-[13px] font-semibold text-ink hover:text-brand-green-deep whitespace-nowrap">
-              <Phone size={14} /> {siteConfig.phone}
-            </a>
             <a
               href={siteConfig.booking.url}
               target="_blank"
