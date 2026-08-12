@@ -58,6 +58,19 @@ export default async function AlliedHealthPage() {
     ),
   ]);
 
+  // These claims are derived, never hardcoded: the page previously said
+  // "book directly" and named partner-run services while every card still
+  // pointed at reception, because the booking URLs hadn't been supplied yet.
+  const anyPractitionerBooksDirect = practitioners.some((p) => p.bookingUrl);
+  const partnerRunServices = services.filter((s) => s.externalBookingUrl).map((s) => s.title);
+
+  // Keep the last row full. The client keeps adding practitioners, and a fixed
+  // column count strands cards in a near-empty row — which is the exact
+  // "blank space" they asked us to remove. Pick whichever of 3/4 leaves fewer gaps.
+  const gapsAt = (cols: number) => (cols - (practitioners.length % cols)) % cols;
+  const practitionerColsClass =
+    gapsAt(3) <= gapsAt(4) ? "lg:grid-cols-3" : "lg:grid-cols-4";
+
   return (
     <>
       <section className="relative overflow-hidden">
@@ -83,8 +96,11 @@ export default async function AlliedHealthPage() {
           <div className="bg-white rounded-3xl border border-line p-6 md:p-7 shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.10)]">
             <h2 className="font-display italic text-[22px] text-ink">How to book</h2>
             <p className="text-charcoal/75 text-[14px] mt-2.5 leading-relaxed">
-              Most allied health services are booked through reception — call, or ask at your next visit.
-              Infusion Avenue and Kosmetika manage their own bookings directly.
+              {partnerRunServices.length > 0 ? "Most allied" : "Allied"} health services are booked through
+              reception — call, or ask at your next visit.
+              {partnerRunServices.length > 0 && (
+                <> {partnerRunServices.join(" and ")} manage their own bookings directly.</>
+              )}
             </p>
             <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-2.5 mt-4">
               <a href={siteConfig.phoneHref} className="inline-flex items-center justify-center gap-2 bg-brand-green-deep hover:bg-brand-green-darker text-white font-semibold px-4 py-2.5 rounded-full text-[13px] whitespace-nowrap">
@@ -105,7 +121,9 @@ export default async function AlliedHealthPage() {
               const bookingHref = externalBookingUrl || siteConfig.phoneHref;
               const isExternal = !!externalBookingUrl;
               return (
-                <div key={_id} id={slugify(title)} className="scroll-mt-32 bg-white rounded-3xl p-4 sm:p-5 border border-line hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow group">
+                // flex-col + mt-auto on the CTA: descriptions vary in length, so
+                // without it the booking links sit at different heights across a row.
+                <div key={_id} id={slugify(title)} className="scroll-mt-32 bg-white rounded-3xl p-4 sm:p-5 border border-line flex flex-col hover:shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.12)] transition-shadow group">
                   {/* Only rendered once a real partner logo is uploaded. There is no
                       generic-icon fallback here: with none uploaded, every card showed
                       the same placeholder, which read as noise rather than branding.
@@ -128,7 +146,7 @@ export default async function AlliedHealthPage() {
                   <a
                     href={bookingHref}
                     {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="mt-4 inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-ink hover:text-brand-green-deep"
+                    className="mt-auto pt-4 inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-ink hover:text-brand-green-deep self-start"
                   >
                     {isExternal ? "Book online" : "Book through reception"}
                     {isExternal ? <ArrowUpRight size={13} /> : <ArrowRight size={13} />}
@@ -159,12 +177,16 @@ export default async function AlliedHealthPage() {
           <div className="max-w-7xl mx-auto px-5 md:px-6">
             <Pill tone="purple" icon={<HeartHandshake size={11} />}>Our allied health team</Pill>
             <h2 className="font-display text-[34px] md:text-[44px] leading-[1.05] tracking-tight text-ink mt-4 mb-8 max-w-2xl">
-              Practitioners you can <em className="italic">book directly.</em>
+              {anyPractitionerBooksDirect ? (
+                <>Practitioners you can <em className="italic">book directly.</em></>
+              ) : (
+                <>The people <em className="italic">behind these services.</em></>
+              )}
             </h2>
             {/* Mobile: horizontal cards (photo left, text right) — a 2-up grid here
                 squeezes the bio into a ~126px column for no height saving.
-                From sm up: the standard vertical portrait card, 4-up on desktop. */}
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+                From sm up: vertical portrait cards; column count picked above. */}
+            <div className={`grid sm:grid-cols-2 md:grid-cols-3 ${practitionerColsClass} gap-4 md:gap-5`}>
               {practitioners.map((p) => {
                 const bookingHref = p.bookingUrl || siteConfig.phoneHref;
                 const isExternal = !!p.bookingUrl;
