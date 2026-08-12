@@ -99,7 +99,7 @@ export function Footer() {
           <ul className="space-y-2 text-sm text-cream-100/70">
             <li><Link href="/about" className="hover:text-white">About us</Link></li>
             <li><Link href="/our-team" className="hover:text-white">Our team</Link></li>
-            <li><Link href="/services" className="hover:text-white">Services</Link></li>
+            <li><Link href="/services" className="hover:text-white">Medical services</Link></li>
             <li><Link href="/beveridge-clinic" className="hover:text-white">Beveridge clinic</Link></li>
             <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
           </ul>

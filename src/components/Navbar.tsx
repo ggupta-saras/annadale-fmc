@@ -23,13 +23,13 @@ export function Navbar({ alliedHealthItems = [] }: NavbarProps) {
   const [mobileAlliedOpen, setMobileAlliedOpen] = useState(false);
 
   const navLinks: { label: string; href: string; children?: NavChild[] }[] = [
-    { label: "Home",          href: "/" },
-    { label: "Services",      href: "/services" },
-    { label: "Allied Health", href: "/allied-health", children: alliedHealthItems.length > 0 ? alliedHealthItems : undefined },
-    { label: "Beveridge",     href: "/beveridge-clinic" },
-    { label: "Team",          href: "/our-team" },
-    { label: "About",         href: "/about" },
-    { label: "Contact",       href: "/contact" },
+    { label: "Home",             href: "/" },
+    { label: "Medical Services", href: "/services" },
+    { label: "Allied Health",    href: "/allied-health", children: alliedHealthItems.length > 0 ? alliedHealthItems : undefined },
+    { label: "Beveridge Clinic", href: "/beveridge-clinic" },
+    { label: "Our Team",         href: "/our-team" },
+    { label: "About",            href: "/about" },
+    { label: "Contact",          href: "/contact" },
   ];
 
   useEffect(() => {
@@ -116,7 +116,7 @@ export function Navbar({ alliedHealthItems = [] }: NavbarProps) {
                   <div key={l.href} className="relative group">
                     <Link
                       href={l.href}
-                      className={`relative flex items-center gap-1 px-3 py-2 text-[13.5px] font-semibold rounded-full whitespace-nowrap transition-colors ${
+                      className={`relative flex items-center gap-1 px-2 xl:px-3 py-2 text-[13px] xl:text-[13.5px] font-semibold rounded-full whitespace-nowrap transition-colors ${
                         active ? "text-ink" : "text-charcoal hover:text-ink"
                       }`}
                     >
@@ -147,7 +147,7 @@ export function Navbar({ alliedHealthItems = [] }: NavbarProps) {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className={`relative px-3 py-2 text-[13.5px] font-semibold rounded-full whitespace-nowrap transition-colors ${
+                  className={`relative px-2 xl:px-3 py-2 text-[13px] xl:text-[13.5px] font-semibold rounded-full whitespace-nowrap transition-colors ${
                     active ? "text-ink" : "text-charcoal hover:text-ink"
                   }`}
                 >
