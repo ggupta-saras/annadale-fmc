@@ -70,10 +70,13 @@ export default async function AlliedHealthPage() {
 
   // The hero's right column holds a photo once the clinic uploads one. Until
   // then it keeps the "How to book" card, so the column never sits empty —
-  // that emptiness was the original complaint. Whichever one the hero shows,
-  // "How to book" appears exactly once on the page: it moves down to the
-  // bottom band when the photo takes its place.
-  const heroImage = page?.heroImage ?? null;
+  // The hero always shows a photo. The clinic can set their own in Studio
+  // ("Allied Health Page" -> Header Photo); until then this falls back to the
+  // clinic's own branded signage, which is the only landscape shot in /public
+  // and makes no claim about what a given allied health service looks like.
+  const heroImageSrc = page?.heroImage
+    ? urlFor(page.heroImage).width(1200).height(900).fit("crop").url()
+    : "/clinic-interior-2.jpg";
 
   // These claims are derived, never hardcoded: the page previously said
   // "book directly" and named partner-run services while every card still
@@ -129,20 +132,16 @@ export default async function AlliedHealthPage() {
             </p>
           </div>
 
-          {heroImage ? (
-            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-line shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.10)]">
-              <Image
-                src={urlFor(heroImage).width(1200).height(900).fit("crop").url()}
-                alt="Allied health care at Annadale Family Medical Centre"
-                fill
-                sizes="(min-width: 1024px) 40vw, 100vw"
-                className="object-cover"
-                priority
-              />
-            </div>
-          ) : (
-            howToBookCard
-          )}
+          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-line shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.10)]">
+            <Image
+              src={heroImageSrc}
+              alt="Annadale Family Medical Centre"
+              fill
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              className="object-cover"
+              priority
+            />
+          </div>
         </div>
       </section>
 
@@ -254,15 +253,12 @@ export default async function AlliedHealthPage() {
         </section>
       )}
 
-      {/* When a header photo takes the hero's right column, "How to book" moves
-          down here so the booking details are never lost — and it renders in
-          exactly one place either way. No closing CTA section: the site footer
-          already carries one ("Care that's simple to start."). */}
-      {heroImage && (
-        <section className="pb-8 px-5 md:px-6">
-          <div className="max-w-7xl mx-auto">{howToBookCard}</div>
-        </section>
-      )}
+      {/* "How to book" sits here now that a photo permanently holds the hero's
+          right column. No closing CTA section: the site footer already carries
+          one ("Care that's simple to start."). */}
+      <section className="pb-8 px-5 md:px-6">
+        <div className="max-w-7xl mx-auto">{howToBookCard}</div>
+      </section>
 
       <section className="pb-14 md:pb-20 px-5 md:px-6">
         <div className="max-w-7xl mx-auto bg-white rounded-3xl border border-line p-6 md:p-8">

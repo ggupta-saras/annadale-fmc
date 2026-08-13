@@ -11,7 +11,7 @@ export const alliedHealthPage = defineType({
       type: "image",
       options: { hotspot: true },
       description:
-        "Large photo shown beside the heading at the top of the Allied Health page. Landscape works best. Until one is uploaded, the \"How to book\" details are shown in that space instead.",
+        "Large photo shown beside the heading at the top of the Allied Health page. Landscape works best. Leave blank and the page uses the clinic signage photo as a default.",
     }),
   ],
   preview: {
