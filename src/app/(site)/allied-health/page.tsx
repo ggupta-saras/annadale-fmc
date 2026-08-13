@@ -133,6 +133,12 @@ export default async function AlliedHealthPage() {
           </div>
 
           <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-line shadow-[0_1px_2px_rgba(27,26,23,.04),0_12px_36px_-12px_rgba(27,26,23,.10)]">
+            {/* unoptimized: Vercel's image optimizer is returning 402
+                (OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED) for any new
+                transformation on this account, which rendered this hero blank.
+                Neither source needs it — Sanity's CDN already returns the image
+                at the requested size via urlFor(), and the local fallback is
+                pre-sized to 1400x946 / 154KB. */}
             <Image
               src={heroImageSrc}
               alt="Annadale Family Medical Centre"
@@ -140,6 +146,7 @@ export default async function AlliedHealthPage() {
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="object-cover"
               priority
+              unoptimized
             />
           </div>
         </div>
