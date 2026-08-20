@@ -8,9 +8,14 @@ import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { slugify } from "@/lib/slugify";
 
-// Fallback refresh (60s). Publishing a service in Sanity also triggers an
+// Fallback refresh (1h). Publishing a service in Sanity also triggers an
 // instant refresh via the /api/revalidate webhook + the "services" cache tag.
-export const revalidate = 60;
+// That webhook is the primary mechanism; this timer only covers it being
+// misconfigured or down. At 60s the pages regenerated about as fast as
+// traffic arrived, and this project spent ~109,500 ISR write units in 30
+// days against an account-wide Hobby allowance of 200,000. An hour keeps a
+// hard freshness ceiling without paying for a rewrite every minute.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Allied Health",
@@ -52,19 +57,19 @@ export default async function AlliedHealthPage() {
         "description": pt::text(description)
       }`,
       {},
-      { next: { tags: ["services"], revalidate: 60 } }
+      { next: { tags: ["services"], revalidate: 3600 } }
     ),
     client.fetch(
       `*[_type == "alliedHealthPractitioner"] | order(order asc) {
         _id, name, roleOrService, bio, bookingUrl, photo
       }`,
       {},
-      { next: { tags: ["alliedHealthPractitioners"], revalidate: 60 } }
+      { next: { tags: ["alliedHealthPractitioners"], revalidate: 3600 } }
     ),
     client.fetch(
       `*[_type == "alliedHealthPage"][0]{ heroImage }`,
       {},
-      { next: { tags: ["alliedHealthPage"], revalidate: 60 } }
+      { next: { tags: ["alliedHealthPage"], revalidate: 3600 } }
     ),
   ]);
 

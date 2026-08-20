@@ -47,7 +47,7 @@ async function getAlliedHealthNavItems() {
     const services: { title: string }[] = await client.fetch(
       `*[_type == "service" && category == "Allied Health"] | order(order asc) { title }`,
       {},
-      { next: { tags: ["services"], revalidate: 60 } }
+      { next: { tags: ["services"], revalidate: 3600 } }
     ) ?? [];
     return services.map((s) => ({ label: s.title, href: `/allied-health#${slugify(s.title)}` }));
   } catch {

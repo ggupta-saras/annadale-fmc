@@ -10,9 +10,14 @@ import { siteConfig } from "@/lib/siteConfig";
 import { BulkBilledBadge, Pill, CTAGroup, TrustStrip, AfterHoursStrip, FinalCTA, PersonPortrait } from "@/components/ui";
 import { client } from "@/sanity/lib/client";
 
-// Fallback time-based refresh (60s). Publishing in Sanity also triggers an
+// Fallback time-based refresh (1h). Publishing in Sanity also triggers an
 // instant refresh via the /api/revalidate webhook + cache tags.
-export const revalidate = 60;
+// That webhook is the primary mechanism; this timer only covers it being
+// misconfigured or down. At 60s the pages regenerated about as fast as
+// traffic arrived, and this project spent ~109,500 ISR write units in 30
+// days against an account-wide Hobby allowance of 200,000. An hour keeps a
+// hard freshness ceiling without paying for a rewrite every minute.
+export const revalidate = 3600;
 
 // Colours assigned by display order — kept in sync with our-team/page.tsx
 // so the same doctor shows the same accent colour on both pages.
@@ -34,7 +39,7 @@ async function getDoctorTeasers(): Promise<DoctorTeaser[]> {
         _id, name, qualifications, specialInterests, photo
       }`,
       {},
-      { next: { tags: ["doctors"], revalidate: 60 } }
+      { next: { tags: ["doctors"], revalidate: 3600 } }
     ) ?? [];
   } catch {
     return [];
@@ -56,7 +61,7 @@ async function getHomepage(): Promise<HomepageCMS> {
         metaTitle, metaDescription, announcementText, heroHeading, heroSubheading
       }`,
       {},
-      { next: { tags: ["homepage"], revalidate: 60 } }
+      { next: { tags: ["homepage"], revalidate: 3600 } }
     ) ?? {};
   } catch {
     return {};
