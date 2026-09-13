@@ -8,9 +8,19 @@ import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { slugify } from "@/lib/slugify";
 
-// Fallback refresh (60s). Publishing a service in Sanity also triggers an
-// instant refresh via the /api/revalidate webhook + the "services" cache tag.
-export const revalidate = 60;
+// Fallback refresh, one hour. Freshness does not depend on it: publishing in
+// Sanity fires the /api/revalidate webhook, which expires the cache tags below
+// immediately, so an edit is live within seconds.
+//
+// This was 60 seconds, which meant every page regenerated once a minute for as
+// long as anything (a crawler, an uptime check, a visitor) kept touching it.
+// Over the 14 Aug to 13 Sep 2026 billing period that produced 94K ISR write
+// units against 32K reads: the site rebuilt itself three times for every time a
+// page was served, on a clinic site whose content changes a few times a month.
+// It made this the second largest consumer on a Vercel account that went 470%
+// over its ISR write allowance. An hour is still far shorter than the real rate
+// of change, and the webhook covers the cases that matter.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Allied Health",
@@ -52,19 +62,19 @@ export default async function AlliedHealthPage() {
         "description": pt::text(description)
       }`,
       {},
-      { next: { tags: ["services"], revalidate: 60 } }
+      { next: { tags: ["services"], revalidate: 3600 } }
     ),
     client.fetch(
       `*[_type == "alliedHealthPractitioner"] | order(order asc) {
         _id, name, roleOrService, bio, bookingUrl, photo
       }`,
       {},
-      { next: { tags: ["alliedHealthPractitioners"], revalidate: 60 } }
+      { next: { tags: ["alliedHealthPractitioners"], revalidate: 3600 } }
     ),
     client.fetch(
       `*[_type == "alliedHealthPage"][0]{ heroImage }`,
       {},
-      { next: { tags: ["alliedHealthPage"], revalidate: 60 } }
+      { next: { tags: ["alliedHealthPage"], revalidate: 3600 } }
     ),
   ]);
 
