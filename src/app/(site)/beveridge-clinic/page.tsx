@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MapPin, Calendar, Phone, ArrowRight, ArrowUpRight, Stethoscope, Brain, Baby, Activity, Check } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 import { Pill, FinalCTA } from "@/components/ui";
+import { client } from "@/sanity/lib/client";
 
 // HouseHeart is available in lucide-react 1.16.0
 import { HouseHeart } from "lucide-react";
@@ -14,7 +15,65 @@ export const metadata: Metadata = {
   description: "Annadale FMC's weekly pop-up GP clinic in Beveridge, VIC — general consultations, chronic disease care, mental health plans and more.",
 };
 
-export default function BeveridgePage() {
+// Fallback refresh, one hour. Publishing in Studio refreshes the page immediately
+// through /api/revalidate (tag "beveridgePage"); see (site)/services/page.tsx for why
+// the timer is deliberately long.
+export const revalidate = 3600;
+
+interface BeveridgePageContent {
+  intro?: string | null;
+  sessions?: { day: string; time: string }[] | null;
+  sessionsNote?: string | null;
+  locationName?: string | null;
+  locationAddress?: string | null;
+  locationNotes?: string | null;
+  services?: { title: string; description?: string | null }[] | null;
+}
+
+// The wording the page had before it became editable. Used wherever the clinic
+// leaves a field blank in Studio, so an empty document changes nothing.
+const DEFAULT_INTRO =
+  "We bring our Mickleham GPs to Beveridge twice a week — so families on the northern edge of the growth corridor can see their doctor without the drive. Fully bulk billed for all Medicare cardholders, same as our Mickleham practice.";
+const DEFAULT_VENUE = "Beveridge Community Hub";
+const DEFAULT_ADDRESS = "Beveridge VIC 3753";
+const DEFAULT_NOTES =
+  "Look for the Annadale signage in the community hub. Free on-site parking. Wheelchair accessible. Confirm the exact room when you book — we sometimes move between consult rooms.";
+const DEFAULT_MAPS_URL = "https://maps.google.com/?q=Beveridge+Community+Hub+VIC+3753";
+const DEFAULT_SERVICES = [
+  { Icon: Stethoscope, title: "General consultations",     desc: "Acute illness, injuries, scripts and referrals." },
+  { Icon: HouseHeart,  title: "Chronic disease reviews",   desc: "Follow-up management plans without travelling to Mickleham." },
+  { Icon: Brain,       title: "Mental health plans",       desc: "Mental Health Care Plans and review consultations." },
+  { Icon: Baby,        title: "Child & family health",     desc: "Vaccinations, growth checks and general family care." },
+  { Icon: Activity,    title: "Women's health",            desc: "Cervical screening, contraception, antenatal shared care." },
+  { Icon: PillIcon,    title: "Prescriptions & referrals", desc: "Repeat scripts, specialist referrals and care coordination." },
+];
+// Cards the clinic adds in Studio take icons from the same set, in order.
+const SERVICE_ICONS = DEFAULT_SERVICES.map((d) => d.Icon);
+
+export default async function BeveridgePage() {
+  const page: BeveridgePageContent | null = await client.fetch(
+    `*[_type == "beveridgePage"][0]{
+      intro, sessions[]{ day, time }, sessionsNote,
+      locationName, locationAddress, locationNotes,
+      services[]{ title, description }
+    }`,
+    {},
+    { next: { tags: ["beveridgePage"], revalidate: 3600 } }
+  );
+
+  const intro = page?.intro || DEFAULT_INTRO;
+  const sessions = page?.sessions ?? [];
+  const venue = page?.locationName || DEFAULT_VENUE;
+  const address = page?.locationAddress || DEFAULT_ADDRESS;
+  const notes = page?.locationNotes || DEFAULT_NOTES;
+  const mapsUrl =
+    page?.locationName || page?.locationAddress
+      ? `https://maps.google.com/?q=${encodeURIComponent(`${venue} ${address}`).replace(/%20/g, "+")}`
+      : DEFAULT_MAPS_URL;
+  const services = page?.services?.length
+    ? page.services.map((svc, i) => ({ Icon: SERVICE_ICONS[i % SERVICE_ICONS.length], title: svc.title, desc: svc.description ?? "" }))
+    : DEFAULT_SERVICES;
+
   return (
     <>
       <section className="relative overflow-hidden">
@@ -28,10 +87,7 @@ export default function BeveridgePage() {
               The Beveridge
               <br /><em className="italic text-brand-purple-deep">pop-up clinic.</em>
             </h1>
-            <p className="text-charcoal/75 text-[17px] mt-6 max-w-xl leading-relaxed">
-              We bring our Mickleham GPs to Beveridge twice a week — so families on the northern edge of the growth corridor
-              can see their doctor without the drive. Fully bulk billed for all Medicare cardholders, same as our Mickleham practice.
-            </p>
+            <p className="text-charcoal/75 text-[17px] mt-6 max-w-xl leading-relaxed whitespace-pre-line">{intro}</p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href={siteConfig.booking.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-brand-purple hover:bg-brand-purple-deep text-white font-semibold px-5 py-3 rounded-full">
                 <Calendar size={15} /> Book a Beveridge appointment
@@ -48,8 +104,24 @@ export default function BeveridgePage() {
               <p className="font-display italic text-2xl text-ink mt-1">Weekly outreach clinic</p>
             </div>
             <div className="py-5 space-y-3 text-[14px] text-charcoal/80">
-              <p>Our Mickleham GPs rotate through the Beveridge clinic on a weekly basis.</p>
-              <p>To confirm this week&apos;s session times and available doctors, please call us or check online booking.</p>
+              {sessions.length > 0 ? (
+                <>
+                  <ul className="divide-y divide-line">
+                    {sessions.map((sess, i) => (
+                      <li key={i} className="flex items-baseline justify-between gap-4 py-2.5 first:pt-0">
+                        <span className="font-semibold text-ink">{sess.day}</span>
+                        <span className="whitespace-nowrap">{sess.time}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {page?.sessionsNote && <p className="whitespace-pre-line">{page.sessionsNote}</p>}
+                </>
+              ) : (
+                <>
+                  <p>Our Mickleham GPs rotate through the Beveridge clinic on a weekly basis.</p>
+                  <p>To confirm this week&apos;s session times and available doctors, please call us or check online booking.</p>
+                </>
+              )}
             </div>
             <div className="flex flex-col gap-2 pt-2">
               <a href={siteConfig.booking.url} target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 bg-ink hover:bg-ink/85 text-white font-semibold px-4 py-3 rounded-full text-[14px]">
@@ -67,14 +139,7 @@ export default function BeveridgePage() {
         <div className="max-w-7xl mx-auto">
           <h2 className="font-display text-3xl md:text-4xl text-ink mb-8">What&apos;s available at the Beveridge clinic</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-            {[
-              { Icon: Stethoscope, title: "General consultations",     desc: "Acute illness, injuries, scripts and referrals." },
-              { Icon: HouseHeart,  title: "Chronic disease reviews",   desc: "Follow-up management plans without travelling to Mickleham." },
-              { Icon: Brain,       title: "Mental health plans",       desc: "Mental Health Care Plans and review consultations." },
-              { Icon: Baby,        title: "Child & family health",     desc: "Vaccinations, growth checks and general family care." },
-              { Icon: Activity,    title: "Women's health",            desc: "Cervical screening, contraception, antenatal shared care." },
-              { Icon: PillIcon,    title: "Prescriptions & referrals", desc: "Repeat scripts, specialist referrals and care coordination." },
-            ].map(({ Icon, title, desc }, i) => (
+            {services.map(({ Icon, title, desc }, i) => (
               <div key={i} className="bg-white rounded-3xl border border-line p-6">
                 <div className="w-12 h-12 rounded-2xl bg-purple-tint text-brand-purple-deep grid place-items-center"><Icon size={22} /></div>
                 <h3 className="font-display text-xl mt-4">{title}</h3>
@@ -89,13 +154,10 @@ export default function BeveridgePage() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-6">
           <div className="bg-purple-tint rounded-3xl p-7 md:p-9">
             <Pill tone="white" icon={<MapPin size={11} />}>Location</Pill>
-            <h3 className="font-display italic text-3xl text-brand-purple-deep mt-4">Beveridge Community Hub</h3>
-            <p className="text-charcoal/80 mt-3">Beveridge VIC 3753</p>
-            <p className="text-[13.5px] text-charcoal/75 mt-4 leading-relaxed">
-              Look for the Annadale signage in the community hub. Free on-site parking. Wheelchair accessible.
-              Confirm the exact room when you book — we sometimes move between consult rooms.
-            </p>
-            <a href="https://maps.google.com/?q=Beveridge+Community+Hub+VIC+3753" target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 bg-brand-purple hover:bg-brand-purple-deep text-white font-semibold px-5 py-3 rounded-full">
+            <h3 className="font-display italic text-3xl text-brand-purple-deep mt-4">{venue}</h3>
+            <p className="text-charcoal/80 mt-3">{address}</p>
+            <p className="text-[13.5px] text-charcoal/75 mt-4 leading-relaxed whitespace-pre-line">{notes}</p>
+            <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 bg-brand-purple hover:bg-brand-purple-deep text-white font-semibold px-5 py-3 rounded-full">
               Open in Maps <ArrowUpRight size={14} />
             </a>
           </div>

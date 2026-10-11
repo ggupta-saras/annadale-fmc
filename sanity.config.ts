@@ -86,6 +86,14 @@ export default defineConfig({
               ),
             S.documentTypeListItem("alliedHealthPractitioner").title("Allied Health Practitioners"),
             S.divider(),
+            S.listItem()
+              .title("Beveridge Clinic Page")
+              .child(
+                S.document()
+                  .schemaType("beveridgePage")
+                  .documentId("beveridgePage")
+              ),
+            S.divider(),
             S.documentTypeListItem("announcement").title("Announcements"),
           ]),
     }),
