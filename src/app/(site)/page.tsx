@@ -7,6 +7,7 @@ import {
   Video, CheckCircle, Check, Star, Sparkles, Compass,
 } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
+import { weekHours, formatRange, clinicDow } from "@/lib/hours";
 import { BulkBilledBadge, Pill, CTAGroup, TrustStrip, AfterHoursStrip, FinalCTA, PersonPortrait } from "@/components/ui";
 import { client } from "@/sanity/lib/client";
 
@@ -384,16 +385,7 @@ function DoctorsSection({ doctors }: { doctors: DoctorTeaser[] }) {
 }
 
 function HoursMap() {
-  const today = new Date().getDay();
-  const hours = [
-    { day: "Mon", range: "9:00 – 5:30",  i: 1 },
-    { day: "Tue", range: "9:00 – 5:30",  i: 2 },
-    { day: "Wed", range: "9:00 – 5:30",  i: 3 },
-    { day: "Thu", range: "9:00 – 5:30",  i: 4 },
-    { day: "Fri", range: "9:00 – 5:30",  i: 5 },
-    { day: "Sat", range: "10:00 – 4:00", i: 6 },
-    { day: "Sun", range: "9:00 – 4:00",  i: 0 },
-  ];
+  const today = clinicDow();
   return (
     <section className="py-20 md:py-24">
       <div className="max-w-7xl mx-auto px-5 md:px-6 grid lg:grid-cols-[1fr_1.1fr] gap-8">
@@ -403,15 +395,16 @@ function HoursMap() {
             Open <em className="italic">seven days</em> a week.
           </h2>
           <ul className="mt-7 divide-y divide-line">
-            {hours.map((h) => {
-              const isToday = h.i === today;
+            {weekHours.map((h) => {
+              const isToday = h.dow === today;
               return (
-                <li key={h.day} className={`flex items-center justify-between py-3 ${isToday ? "font-semibold" : ""}`}>
-                  <span className={`inline-flex items-center gap-2.5 ${isToday ? "text-ink" : "text-charcoal"}`}>
+                <li key={h.short} className={`flex items-center justify-between gap-3 py-3 ${isToday ? "font-semibold" : ""}`}>
+                  <span className={`inline-flex flex-wrap items-center gap-x-2.5 ${isToday ? "text-ink" : "text-charcoal"}`}>
                     {isToday && <span className="w-2 h-2 rounded-full bg-brand-green-deep inline-block" />}
-                    {h.day}
+                    {h.short}
+                    {h.location && <span className="text-[13px] font-normal text-charcoal/60">({h.location})</span>}
                   </span>
-                  <span className={isToday ? "text-brand-green-deep" : "text-charcoal/75"}>{h.range}</span>
+                  <span className={`whitespace-nowrap ${isToday ? "text-brand-green-deep" : "text-charcoal/75"}`}>{formatRange(h, true)}</span>
                 </li>
               );
             })}

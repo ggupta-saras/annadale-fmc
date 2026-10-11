@@ -54,13 +54,15 @@ export default function ContactPage() {
             <div className="bg-ink text-cream-100 rounded-3xl p-7">
               <Pill tone="green" className="!bg-white/10 !text-cream-100" icon={<Clock size={11} />}>Opening hours</Pill>
               <ul className="mt-5 divide-y divide-white/10 text-[14px]">
-                {[
-                  { day: "Monday – Friday", t: "9:00am – 5:30pm" },
-                  { day: "Saturday",        t: "10:00am – 4:00pm" },
-                  { day: "Sunday",          t: "9:00am – 4:00pm" },
-                  { day: "Public Holidays", t: "Closed" },
-                ].map((h, i) => (
-                  <li key={i} className="flex justify-between py-3"><span className="text-cream-100/80">{h.day}</span><span className="font-semibold">{h.t}</span></li>
+                {siteConfig.hours.map((h) => (
+                  <li key={h.day} className="flex justify-between gap-4 py-3">
+                    <span className="text-cream-100/80">
+                      {h.day}
+                      {/* Stacked on phones, where the card is too narrow for it inline */}
+                      {h.note && <span className="block sm:inline sm:ml-1.5 text-[13px] text-cream-100/50">({h.note})</span>}
+                    </span>
+                    <span className="font-semibold whitespace-nowrap">{h.time}</span>
+                  </li>
                 ))}
               </ul>
             </div>

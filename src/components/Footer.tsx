@@ -92,10 +92,11 @@ export function Footer() {
               mid-value and left the times raggedly aligned. Matches the
               label-over-value pattern of the After hours column beside it. */}
           <ul className="space-y-2.5 text-sm text-cream-100/70">
-            {siteConfig.hours.map(({ day, time }) => (
+            {siteConfig.hours.map(({ day, time, note }) => (
               <li key={day}>
                 <span className="block whitespace-nowrap">{day}</span>
                 <span className="block whitespace-nowrap text-cream-100/90">{time}</span>
+                {note && <span className="block whitespace-nowrap text-[12px] text-cream-100/55">{note}</span>}
               </li>
             ))}
           </ul>
