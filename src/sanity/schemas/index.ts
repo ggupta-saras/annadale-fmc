@@ -6,8 +6,9 @@ import { service } from "./service";
 import { alliedHealthPage } from "./alliedHealthPage";
 import { alliedHealthPractitioner } from "./alliedHealthPractitioner";
 import { beveridgePage } from "./beveridgePage";
+import { openingHours } from "./openingHours";
 import { announcement } from "./announcement";
 
 export const schema = {
-  types: [homepage, siteSettings, doctor, staffMember, service, alliedHealthPage, alliedHealthPractitioner, beveridgePage, announcement],
+  types: [homepage, siteSettings, doctor, staffMember, service, alliedHealthPage, alliedHealthPractitioner, beveridgePage, openingHours, announcement],
 };

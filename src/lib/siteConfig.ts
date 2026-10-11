@@ -1,5 +1,3 @@
-import { groupedHours, type HoursRow } from "./hours";
-
 export const siteConfig = {
   name: "Annadale Family Medical Centre",
   shortName: "Annadale FMC",
@@ -19,8 +17,8 @@ export const siteConfig = {
     url: "https://healthengine.com.au/medical-centre/vic/mickleham/annadale-family-medical-centre/s71806",
     provider: "HealthEngine",
   },
-  // Derived from lib/hours.ts — edit the hours there, not here.
-  hours: [...groupedHours(), { day: "Public Holidays", time: "Closed" }] as HoursRow[],
+  // Opening hours are not here: they are edited in Studio (Opening Hours) and
+  // read with getOpeningHours() in lib/getHours.ts; defaults live in lib/hours.ts.
   afterHours: {
     homeDoctors: "13SICK (13 7425)",
     healthdirect: "1800 022 222",

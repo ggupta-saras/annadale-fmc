@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { client } from "@/sanity/lib/client";
 import { slugify } from "@/lib/slugify";
+import { getOpeningHours } from "@/lib/getHours";
 
 // Fonts are self-hosted (files in ./fonts) rather than fetched from Google at
 // build time. next/font/google downloads the files during every build, so a
@@ -56,12 +57,12 @@ async function getAlliedHealthNavItems() {
 }
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const alliedHealthItems = await getAlliedHealthNavItems();
+  const [alliedHealthItems, hours] = await Promise.all([getAlliedHealthNavItems(), getOpeningHours()]);
   return (
     <div className={`${manrope.variable} ${playfair.variable} ${lobster.variable} min-h-screen flex flex-col bg-cream-50 text-ink font-sans antialiased`}>
-      <Navbar alliedHealthItems={alliedHealthItems} />
+      <Navbar alliedHealthItems={alliedHealthItems} hours={hours} />
       <main className="flex-1">{children}</main>
-      <Footer />
+      <Footer hours={hours} />
     </div>
   );
 }

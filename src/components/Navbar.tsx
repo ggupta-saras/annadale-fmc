@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Menu, X, Phone, Calendar, ArrowUpRight, MapPin, ChevronDown } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
-import { clinicDow, todayLine } from "@/lib/hours";
+import { clinicDow, todayLine, weekHours, type DayHours } from "@/lib/hours";
 import { Logo } from "@/components/Logo";
 
 interface NavChild {
@@ -15,6 +15,7 @@ interface NavChild {
 
 interface NavbarProps {
   alliedHealthItems?: NavChild[];
+  hours?: DayHours[];
 }
 
 // "Today" only exists in the browser (the page itself is cached and shared by
@@ -23,7 +24,7 @@ interface NavbarProps {
 // hydration mismatch without a setState-in-effect flash.
 const subscribeNever = () => () => {};
 
-export function Navbar({ alliedHealthItems = [] }: NavbarProps) {
+export function Navbar({ alliedHealthItems = [], hours = weekHours }: NavbarProps) {
   const pathname = usePathname();
   const todayDow = useSyncExternalStore<number | null>(subscribeNever, () => clinicDow(), () => null);
   const [open, setOpen] = useState(false);
@@ -85,7 +86,7 @@ export function Navbar({ alliedHealthItems = [] }: NavbarProps) {
           <div className="flex items-center gap-5 text-cream-100/80 min-w-0">
             <span className="inline-flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-brand-green inline-block" />
-              {todayDow === null ? "Open 7 days" : todayLine(todayDow)}
+              {todayDow === null ? "Open 7 days" : todayLine(todayDow, hours)}
             </span>
             <span className="hidden xl:inline-flex items-center gap-1.5 opacity-80">
               <MapPin size={13} /> {siteConfig.address.full}

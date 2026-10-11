@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Calendar, Phone, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
+import { hoursRows, weekHours, type DayHours } from "@/lib/hours";
 import { Logo } from "@/components/Logo";
 
 function FacebookIcon({ size = 15 }: { size?: number }) {
@@ -21,7 +22,7 @@ function InstagramIcon({ size = 15 }: { size?: number }) {
   );
 }
 
-export function Footer() {
+export function Footer({ hours = weekHours }: { hours?: DayHours[] }) {
   return (
     <footer className="bg-ink text-cream-100 mt-auto">
       {/* Top CTA strip */}
@@ -92,11 +93,12 @@ export function Footer() {
               mid-value and left the times raggedly aligned. Matches the
               label-over-value pattern of the After hours column beside it. */}
           <ul className="space-y-2.5 text-sm text-cream-100/70">
-            {siteConfig.hours.map(({ day, time, note }) => (
+            {hoursRows(hours).map(({ day, time, note }) => (
               <li key={day}>
                 <span className="block whitespace-nowrap">{day}</span>
                 <span className="block whitespace-nowrap text-cream-100/90">{time}</span>
-                {note && <span className="block whitespace-nowrap text-[12px] text-cream-100/55">{note}</span>}
+                {/* Editable in Studio, so allowed to wrap rather than overflow this narrow column */}
+                {note && <span className="block text-[12px] text-cream-100/55">{note}</span>}
               </li>
             ))}
           </ul>

@@ -7,7 +7,8 @@ import {
   Video, CheckCircle, Check, Star, Sparkles, Compass,
 } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
-import { weekHours, formatRange, clinicDow } from "@/lib/hours";
+import { formatRange, clinicDow, type DayHours } from "@/lib/hours";
+import { getOpeningHours } from "@/lib/getHours";
 import { BulkBilledBadge, Pill, CTAGroup, TrustStrip, AfterHoursStrip, FinalCTA, PersonPortrait } from "@/components/ui";
 import { client } from "@/sanity/lib/client";
 
@@ -384,7 +385,7 @@ function DoctorsSection({ doctors }: { doctors: DoctorTeaser[] }) {
   );
 }
 
-function HoursMap() {
+function HoursMap({ week }: { week: DayHours[] }) {
   const today = clinicDow();
   return (
     <section className="py-20 md:py-24">
@@ -395,7 +396,7 @@ function HoursMap() {
             Open <em className="italic">seven days</em> a week.
           </h2>
           <ul className="mt-7 divide-y divide-line">
-            {weekHours.map((h) => {
+            {week.map((h) => {
               const isToday = h.dow === today;
               return (
                 <li key={h.short} className={`flex items-center justify-between gap-3 py-3 ${isToday ? "font-semibold" : ""}`}>
@@ -460,7 +461,7 @@ function HoursMap() {
 }
 
 export default async function HomePage() {
-  const [cms, doctors] = await Promise.all([getHomepage(), getDoctorTeasers()]);
+  const [cms, doctors, week] = await Promise.all([getHomepage(), getDoctorTeasers(), getOpeningHours()]);
   return (
     <>
       <AnnouncementBar text={cms.announcementText} />
@@ -470,7 +471,7 @@ export default async function HomePage() {
       <WhyUs />
       <BeveridgeSection />
       <DoctorsSection doctors={doctors} />
-      <HoursMap />
+      <HoursMap week={week} />
       <AfterHoursStrip />
       <FinalCTA />
     </>

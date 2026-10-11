@@ -46,6 +46,13 @@ export default defineConfig({
                   .schemaType("siteSettings")
                   .documentId("siteSettings")
               ),
+            S.listItem()
+              .title("Opening Hours")
+              .child(
+                S.document()
+                  .schemaType("openingHours")
+                  .documentId("openingHours")
+              ),
             S.divider(),
             S.documentTypeListItem("doctor").title("Doctors"),
             S.documentTypeListItem("staffMember").title("Staff Members"),

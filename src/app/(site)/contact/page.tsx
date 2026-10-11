@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
+import { hoursRows } from "@/lib/hours";
+import { getOpeningHours } from "@/lib/getHours";
 import { Pill, FinalCTA } from "@/components/ui";
 import { ContactForm } from "@/components/ContactForm";
 
@@ -9,7 +11,8 @@ export const metadata: Metadata = {
   description: "Get in touch with Annadale Family Medical Centre — phone, email, address, or send us a message.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const hours = hoursRows(await getOpeningHours());
   return (
     <>
       <section className="relative overflow-hidden">
@@ -54,7 +57,7 @@ export default function ContactPage() {
             <div className="bg-ink text-cream-100 rounded-3xl p-7">
               <Pill tone="green" className="!bg-white/10 !text-cream-100" icon={<Clock size={11} />}>Opening hours</Pill>
               <ul className="mt-5 divide-y divide-white/10 text-[14px]">
-                {siteConfig.hours.map((h) => (
+                {hours.map((h) => (
                   <li key={h.day} className="flex justify-between gap-4 py-3">
                     <span className="text-cream-100/80">
                       {h.day}

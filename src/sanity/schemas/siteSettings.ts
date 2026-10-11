@@ -21,23 +21,6 @@ export const siteSettings = defineType({
         defineField({ name: "postcode", title: "Postcode", type: "string" }),
       ],
     }),
-    defineField({
-      name: "openingHours",
-      title: "Opening Hours",
-      type: "array",
-      of: [
-        {
-          type: "object",
-          fields: [
-            defineField({ name: "day", title: "Day(s)", type: "string" }),
-            defineField({ name: "hours", title: "Hours", type: "string" }),
-          ],
-          preview: {
-            select: { title: "day", subtitle: "hours" },
-          },
-        },
-      ],
-    }),
     defineField({ name: "bookingUrl", title: "Online Booking URL", type: "url" }),
     defineField({ name: "facebookUrl", title: "Facebook URL", type: "url" }),
     defineField({ name: "instagramUrl", title: "Instagram URL", type: "url" }),
