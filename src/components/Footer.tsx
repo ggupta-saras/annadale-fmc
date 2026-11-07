@@ -129,8 +129,12 @@ export function Footer({ hours = weekHours }: { hours?: DayHours[] }) {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-xs text-cream-100/50">
           <span>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</span>
-          <div className="flex items-center gap-5">
+          {/* flex-wrap: four links no longer fit one row on a phone */}
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
+            {/* Required for the practice's accreditation. A static PDF in /public so it
+                works without a page; replace public/social-media-policy.pdf to update it. */}
+            <a href="/social-media-policy.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-white">Social Media Policy</a>
             <Link href="/patient-information" className="hover:text-white">Patient Information</Link>
             <Link href="/contact#feedback" className="hover:text-white">Complaints &amp; Feedback</Link>
           </div>
