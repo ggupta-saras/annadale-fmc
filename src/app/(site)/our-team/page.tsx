@@ -5,9 +5,14 @@ import { siteConfig } from "@/lib/siteConfig";
 import { Pill, FinalCTA, PersonPortrait } from "@/components/ui";
 import { client } from "@/sanity/lib/client";
 
-// Fallback refresh (60s). Publishing a doctor/staff member in Sanity also
+// Fallback refresh (1h). Publishing a doctor/staff member in Sanity also
 // triggers an instant refresh via the /api/revalidate webhook + cache tags.
-export const revalidate = 60;
+// That webhook is the primary mechanism; this timer only covers it being
+// misconfigured or down. At 60s the pages regenerated about as fast as
+// traffic arrived, and this project spent ~109,500 ISR write units in 30
+// days against an account-wide Hobby allowance of 200,000. An hour keeps a
+// hard freshness ceiling without paying for a rewrite every minute.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Our Team",
@@ -56,12 +61,12 @@ export default async function OurTeamPage() {
         specialInterests, languages, acceptingNewPatients
       }`,
       {},
-      { next: { tags: ["doctors"], revalidate: 60 } }
+      { next: { tags: ["doctors"], revalidate: 3600 } }
     ),
     client.fetch(
       `*[_type == "staffMember"] | order(order asc) { _id, name, role, bio, photo }`,
       {},
-      { next: { tags: ["staff"], revalidate: 60 } }
+      { next: { tags: ["staff"], revalidate: 3600 } }
     ),
   ]);
 
