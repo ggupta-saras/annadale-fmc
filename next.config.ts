@@ -20,6 +20,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Old addresses for the policies, kept working for anyone who saved or shared
+  // them. Temporary (307), so they can be repointed if the clinic later wants a
+  // separate Patient Information page.
+  async redirects() {
+    return [
+      { source: "/privacy", destination: "/policies/privacy-policy", permanent: false },
+      { source: "/patient-information", destination: "/policies/privacy-policy", permanent: false },
+      { source: "/social-media-policy.pdf", destination: "/policies/social-media-policy", permanent: false },
+    ];
+  },
 };
 
 export default nextConfig;

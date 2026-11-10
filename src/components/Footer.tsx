@@ -131,11 +131,12 @@ export function Footer({ hours = weekHours }: { hours?: DayHours[] }) {
           <span>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</span>
           {/* flex-wrap: four links no longer fit one row on a phone */}
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
-            {/* Required for the practice's accreditation. A static PDF in /public so it
-                works without a page; replace public/social-media-policy.pdf to update it. */}
-            <a href="/social-media-policy.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-white">Social Media Policy</a>
-            <Link href="/patient-information" className="hover:text-white">Patient Information</Link>
+            {/* Policy pages are required for the practice's accreditation; their text is
+                edited in Studio under "Policies". The clinic asked for Patient Information
+                to show the Privacy and Confidentiality Policy too. */}
+            <Link href="/policies/privacy-policy" className="hover:text-white">Privacy Policy</Link>
+            <Link href="/policies/social-media-policy" className="hover:text-white">Social Media Policy</Link>
+            <Link href="/policies/privacy-policy" className="hover:text-white">Patient Information</Link>
             <Link href="/contact#feedback" className="hover:text-white">Complaints &amp; Feedback</Link>
           </div>
         </div>

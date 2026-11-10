@@ -8,7 +8,8 @@ import { alliedHealthPractitioner } from "./alliedHealthPractitioner";
 import { beveridgePage } from "./beveridgePage";
 import { openingHours } from "./openingHours";
 import { announcement } from "./announcement";
+import { policy } from "./policy";
 
 export const schema = {
-  types: [homepage, siteSettings, doctor, staffMember, service, alliedHealthPage, alliedHealthPractitioner, beveridgePage, openingHours, announcement],
+  types: [homepage, siteSettings, doctor, staffMember, service, alliedHealthPage, alliedHealthPractitioner, beveridgePage, openingHours, announcement, policy],
 };

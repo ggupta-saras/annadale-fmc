@@ -102,6 +102,7 @@ export default defineConfig({
               ),
             S.divider(),
             S.documentTypeListItem("announcement").title("Announcements"),
+            S.documentTypeListItem("policy").title("Policies"),
           ]),
     }),
   ],
